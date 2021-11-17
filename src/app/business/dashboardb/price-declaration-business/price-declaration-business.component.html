@@ -1,0 +1,236 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div class="container">
+  <div class="raleway font-normal text-3xl text-black mt-3 mb-3 text-center md:text-left">Cung cấp đơn giá vận chuyển</div>
+  <div class="w-full mb-4">
+    <div class="flex items-center justify-center md:justify-start">
+      <div class="raleway font-normal text-lg">Tính theo</div>
+      <button class="btn1 transition duration-500 ease-in-out box-border rounded-2xl text-center font-semibold cursor-pointer ml-5 mr-5 px-5 py-1" routerLinkActive="active" [class.active]="category === 'km'" (click)="clickChangeCategory('km')">km</button>
+      <button class="btn1 transition duration-500 ease-in-out box-border rounded-2xl text-center font-semibold cursor-pointer px-6 py-1" routerLinkActive="active" [class.active]="category === 'kg'" (click)="clickChangeCategory('kg')">kg</button>
+    </div>
+  </div>
+
+  <div *ngIf="category === 'km' && !active">
+    <ng-contaier *ngTemplateOutlet="tinhkm"></ng-contaier>
+  </div>
+  <div *ngIf="category === 'kg' && !active">
+    <ng-container *ngTemplateOutlet="tinhkg"></ng-container>
+  </div>
+</div>
+
+<ng-template #tinhkm>
+  <div class="w-full px-4 md:px-0 mt-5 animate__animated animate__fadeInRight">
+    <div class="text-center my-5 text-xl font-semibold raleway uppercase">Biểu mẫu báo giá theo kilometers</div>
+    <form class="w-full md:flex items-center" nz-form [formGroup]="formDeclareKm">
+        <div class="w-full md:w-1/2">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="loaiHangHoa">Loại hàng hóa</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzErrorTip="Loại hàng hóa không được trống">
+              <nz-select [nzSize]='size' nzPlaceHolder="Chọn loại hàng hóa" formControlName="loaiHangHoa" id="loaiHangHoa">
+                <nz-option *ngFor="let item of loaiHangHoa" [nzValue]="item.tenLoaiHH" [nzLabel]="item.tenLoaiHH"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="donGiaKmDau">Đơn giá số km đầu</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errordonGiaKmDau">
+              <input placeholder="Nhập đơn giá cho số km đầu" nz-input formControlName="donGiaKmDau" id="donGiaKmDau">
+            </nz-form-control>
+            <ng-template #errordonGiaKmDau let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKmDau">Số km đầu</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKmDau">
+              <input placeholder="Nhập số km đầu" nz-input formControlName="soKmDau" id="soKmDau">
+            </nz-form-control>
+            <ng-template #errorsoKmDau let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="donGiaKmTt">Đơn giá số km tiếp theo</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errordonGiaKmTt">
+              <input placeholder="Nhập đơn giá cho số km tiếp theo" nz-input formControlName="donGiaKmTt" id="donGiaKmTt">
+            </nz-form-control>
+            <ng-template #errordonGiaKmTt let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <div class="w-full md:w-1/2 mr-5">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKmTt">Số km tiếp theo</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKmTt">
+              <input placeholder="Nhập số km tiếp theo" nz-input formControlName="soKmTt" id="soKmTt">
+            </nz-form-control>
+            <ng-template #errorsoKmTt let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKmMax">Số km tối đa</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKmMax">
+              <input placeholder="Nhập số km tối đa" nz-input formControlName="soKmMax" id="soKmMax">
+            </nz-form-control>
+            <ng-template #errorsoKmMax let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="khuVuc">Khu vực áp dụng</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzErrorTip="Khu vực áp dụng không được trống">
+              <nz-select [nzSize]='size' nzPlaceHolder="Chọn khu vực áp dụng" formControlName="khuVuc" id="khuVuc">
+                <nz-option *ngFor="let item of district" [nzValue]="item.DistrictName" [nzLabel]="item.DistrictName"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+    </form>
+    <div class="text-center xl:text-right mr-5  mb-5">
+      <button class="shadow-inner w-1/2 xl:w-auto border border-gray-400 px-6 py-1 rounded-xl baogia raleway font-semibold text-center uppercase transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:text-white" (click)="priceDeclareKM()">Báo giá</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tinhkg>
+  <div class="w-full px-4 md:px-0 mt-5 animate__animated animate__fadeInRight">
+    <div class="text-center my-5 text-xl font-semibold raleway uppercase">Biểu mẫu báo giá theo kilograms</div>
+    <form class="w-full md:flex items-center" nz-form [formGroup]="formDeclareKg">
+        <div class="w-full md:w-1/2">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="loaiHangHoa">Loại hàng hóa</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzErrorTip="Loại hàng hóa không được trống">
+              <nz-select [nzSize]='size' nzPlaceHolder="Chọn loại hàng hóa" formControlName="loaiHangHoa" id="loaiHangHoa">
+                <nz-option *ngFor="let item of loaiHangHoa" [nzValue]="item.tenLoaiHH" [nzLabel]="item.tenLoaiHH"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="dongiaKgDau">Đơn giá số kg đầu</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errordongiaKgDau">
+              <input placeholder="Nhập đơn giá cho số kg đầu" nz-input formControlName="dongiaKgDau" id="dongiaKgDau">
+            </nz-form-control>
+            <ng-template #errordongiaKgDau let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKgDau">Số kg đầu</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKgDau">
+              <input placeholder="Nhập số kg đầu" nz-input formControlName="soKgDau" id="soKgDau">
+            </nz-form-control>
+            <ng-template #errorsoKgDau let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="donGiaKgTt">Đơn giá số kg tiếp theo</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errordonGiaKgTt">
+              <input placeholder="Nhập đơn giá cho số kg tiếp theo" nz-input formControlName="donGiaKgTt" id="donGiaKgTt">
+            </nz-form-control>
+            <ng-template #errordonGiaKgTt let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <div class="w-full md:w-1/2 mr-5">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKgTt">Số kg tiếp theo</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKgTt">
+              <input placeholder="Nhập số km tiếp theo" nz-input formControlName="soKgTt" id="soKgTt">
+            </nz-form-control>
+            <ng-template #errorsoKgTt let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="soKgMax">Số kg tối đa</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoKgMax">
+              <input placeholder="Nhập số kg tối đa" nz-input formControlName="soKgMax" id="soKgMax">
+            </nz-form-control>
+            <ng-template #errorsoKgMax let-control>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Trường nhập phải là số</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Trường nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nFor="khuVuc">Khu vực áp dụng</nz-form-label>
+            <nz-form-control [nzSpan]="16" nzErrorTip="Khu vực áp dụng không được trống">
+              <nz-select [nzSize]='size' nzPlaceHolder="Chọn khu vực áp dụng" formControlName="khuVuc" id="khuVuc">
+                <nz-option *ngFor="let item of district" [nzValue]="item.DistrictName" [nzLabel]="item.DistrictName"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+    </form>
+    <div class="text-center xl:text-right mr-5  mb-5">
+      <button (click)="priceDeclareKG()" class="shadow-inner w-1/2 xl:w-auto border border-gray-400 px-6 py-1 rounded-xl baogia raleway font-semibold text-center uppercase transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:text-white" >Báo giá</button>
+    </div>
+  </div>
+</ng-template>

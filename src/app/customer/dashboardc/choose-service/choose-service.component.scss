@@ -1,0 +1,152 @@
+input{
+  border-radius: 20px;
+}
+nz-form-label{
+  text-align: left;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px
+}
+
+.img-paypal{
+  max-width: 100px;
+}
+.img-vnpay{
+  max-width: 100px;
+}
+
+.frm{
+  margin-top: 15px;
+  width: 50%;
+  margin-left: 10%;
+  position: absolute;
+  z-index: 1000;
+}
+.disabled{
+  background: #F3F3F3;
+}
+.txt-frm{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.gr-btn{
+  font-family: Raleway;
+  font-style: normal;
+  font-size: 17px;
+  font-weight: bold;
+  color: #418E94;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.gr{
+  padding-bottom: 10px;
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+
+  .back{
+    visibility: hidden;
+    opacity: 0;
+  }
+  .img-next{
+    margin-left: 10px;
+    max-width: 20px;
+  }
+  .img-back{
+    transform: rotate(180deg);
+    margin-right: 10px;
+    max-width: 20px;
+  }
+}
+
+
+  .frm-order-1{
+    background: rgba(254, 240, 255, 0.44);
+    box-sizing: border-box;
+  }
+
+
+  .text-header{
+    font-family: Raleway;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 30px;
+  }
+  .text-body{
+    font-family: Raleway;
+    font-size: 17px;
+    line-height: 29px;
+    margin-left: 30px;
+  }
+
+  .raleway{
+    font-family: Raleway;
+  }
+  .txt-title{
+    font-family: Raleway;
+  }
+
+  label{
+    padding: 10px !important;
+  }
+
+.txt-price{
+  display: flex;
+  justify-content: space-between;
+}
+.text-bottom{
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+}
+
+
+.img-paypal{
+  max-width: 100px;
+}
+
+.left-pay{
+  width: 65%;
+}
+.right-pay{
+  width: 35%;
+}
+.detail-body-1{
+  display: flex;
+  justify-content: space-between;
+}
+.img-step6{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.img-card{
+  max-width: 70%;
+  margin: 10px;
+}
+.detail-body-pay{
+  margin: 0 30px 0 30px;
+  .text-header-pay{
+    font-family: Raleway;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 30px;
+  }
+  .text-body-pay{
+    font-family: Raleway;
+    font-size: 17px;
+    line-height: 29px;
+    margin-left: 30px;
+  }
+}
+.txt-frm-pay{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+}

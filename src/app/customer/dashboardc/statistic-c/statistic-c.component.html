@@ -1,0 +1,54 @@
+<div class="container">
+  <div *ngIf="active; else notActive">
+    <ng-container>
+      <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+    </ng-container>
+  </div>
+  <ng-template #notActive>
+    <div class="top">
+      <span class="title-text-customer tk">Thống kê số đơn hàng</span>
+      <div class="right">
+        <div class="right-statistic">
+          <div class="txt-statistic">Theo</div>
+          <button class="btn btn1 btnm transition duration-500 ease-in-out" routerLinkActive="active" [class.active]="choose === 'Tháng'" (click)="clickMonth()">Tháng</button>
+          <button class="btn btn1 btmtr transition duration-500 ease-in-out" routerLinkActive="active" [class.active]="choose === 'Tình trạng đơn hàng'" (click)="clickTinhTrang()">Tình trạng đơn hàng</button>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="chart">
+        <div *ngIf="choose === 'Tháng'" class="animate__animated animate__fadeInLeft">
+          <ng-container *ngTemplateOutlet="barChartThang"></ng-container>
+        </div>
+        <div *ngIf="choose === 'Tình trạng đơn hàng'" class="animate__animated animate__fadeInRight">
+          <ng-container *ngTemplateOutlet="barChartTinhTrang"></ng-container>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #barChartThang>
+      <canvas baseChart
+          [datasets]="barChartDataThang"
+          [labels]="barChartLabelsThang"
+          [options]="barChartOptionsThang"
+          [colors]="barChartColorsThang"
+          [legend]="barChartLegendThang"
+          [chartType]="barChartTypeThang"
+          [plugins]="barChartPluginsThang">
+        </canvas>
+    </ng-template>
+
+    <ng-template #barChartTinhTrang>
+      <canvas baseChart
+          [datasets]="barChartDataTinhTrang"
+          [labels]="barChartLabelsTinhTrang"
+          [options]="barChartOptionsTinhTrang"
+          [colors]="barChartColorsTinhTrang"
+          [legend]="barChartLegendTinhTrang"
+          [chartType]="barChartTypeTinhTrang"
+          [plugins]="barChartPluginsTinhTrang">
+        </canvas>
+    </ng-template>
+  </ng-template>
+</div>
+

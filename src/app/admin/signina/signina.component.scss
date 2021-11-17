@@ -1,0 +1,73 @@
+input{
+  border-radius: 12px;
+}
+
+.header{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+
+.content{
+  background-color: white;
+}
+
+.txt-sign-business{
+  font-family: Raleway;
+}
+.txt-sign-business:after{
+  content: "";
+  position: absolute;
+  left: 36%;
+  width: 380px;
+  height: 4px;
+  bottom: -8px;
+  background-color: #61C0C7;
+}
+
+.form-sign{
+  display: flex;
+  justify-content: center;
+  margin-left: 10%;
+  margin-top: 20px;
+}
+
+.txt-sdt{
+  font-family: Raleway;
+  font-style: normal;
+  margin-top: 3px;
+  font-weight: 500;
+  font-size: 20px;
+  color: #000000;
+  text-indent: 10px;
+}
+.btn-in{
+  background: linear-gradient(180deg, #B8FAFF 0%, rgba(226, 253, 255, 0) 100%);
+  color: #35695A;
+}
+
+.fg-pass{
+  color: #418E94;
+}
+.fg-pass:hover{
+  color: rgb(69, 142, 226);
+}
+
+.txt-no-account{
+  font-family: Pacifico;
+}
+
+.txt-signin{
+  font-family: Pacifico;
+  color: #418E94;
+  position: relative;
+}
+.txt-signin:hover{
+  color: rgb(69, 142, 226);
+}
+@media only screen and (max-width: 500px) {
+  .txt-sign-business:after{
+    left: 10%;
+    width: 370px;
+  }
+}
+
+

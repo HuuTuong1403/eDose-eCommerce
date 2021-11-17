@@ -1,0 +1,30 @@
+<nz-layout class="bg-white w-full h-full relative">
+  <div class="header w-full relative">
+    <div class="flex items-center justify-center">
+      <img src="../../../assets/images/logo-header.png" alt="Logo eDose" class="cursor-pointer w-1/6 md:w-1/12" routerLink="/home">
+      <img src="../../../assets/images/name-header.png" alt="Company" class="cursor-pointer mt-auto w-1/6 md:w-1/12" routerLink="/home">
+    </div>
+  </div>
+  <div class="center" *ngIf="type === ''">
+    <div class="text-center mb-5">
+      <i title="Warning" nz-icon nzType="warning" nzTheme="outline" class="text-7xl text-yellow-400 cursor-pointer transition duration-500 ease-in-out transform hover:-translate-y-2"></i>
+    </div>
+    <div class="text-2xl font-semibold text-center text-yellow-400 uppercase">eDose thấy rằng email của bạn vẫn chưa xác thực</div>
+    <div class="text-2xl mb-5 font-semibold text-center text-yellow-400 uppercase">vui lòng xác thực email để tiếp tục sử dụng hệ thống</div>
+    <a class="flex justify-center rounded-md mt-10 px-5 py-2 border border-gray-400 text-xl bg-yellow-100 text-black transition duration-500 ease hover:bg-yellow-400 hover:text-white" routerLink="/home">Trở về trang chủ</a>
+  </div>
+  <div class="center" *ngIf="type === 'success'">
+    <div class="text-center mb-5">
+      <i nz-icon nzType="check-circle" nzTheme="outline" class="text-7xl text-green-400 cursor-pointer transition duration-500 ease-in-out transform hover:-translate-y-2" ></i>
+    </div>
+    <div class="text-2xl mb-5 font-medium text-center text-green-500">Email của bạn đã được xác thực thành công</div>
+    <a class="flex justify-center rounded-md mt-10 px-5 py-2 border border-gray-400 text-xl bg-green-100 text-black transition duration-500 ease-in-out hover:bg-green-400 hover:text-white" routerLink="/choose-role">Chuyển sang trang chọn chức năng</a>
+  </div>
+  <div class="center" *ngIf="type === 'error'">
+    <div class="text-center mb-5">
+      <i nz-icon nzType="close-circle" nzTheme="outline" class="text-7xl text-red-400 cursor-pointer transition duration-500 ease-in-out transform hover:-translate-y-2" ></i>
+    </div>
+    <div class="text-2xl mb-5 font-medium text-center text-red-500">Email của bạn xác thực không thành công</div>
+    <a class="flex justify-center rounded-md mt-10 px-5 py-2 border border-gray-400 text-xl bg-red-100 text-black transition duration-500 ease-in-out hover:bg-red-400 hover:text-white" routerLink="/home">Quay về trang chủ</a>
+  </div>
+</nz-layout>

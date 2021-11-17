@@ -1,0 +1,31 @@
+<nz-layout class="bg-white w-full h-full">
+  <div class="header w-full relative">
+    <div class="flex items-center justify-center">
+      <img src="../../../assets/images/logo-header.png" alt="Logo eDose" class="cursor-pointer w-1/6 md:w-1/12" routerLink="/home">
+      <img src="../../../assets/images/name-header.png" alt="Company" class="cursor-pointer mt-auto w-1/6 md:w-1/12" routerLink="/home">
+    </div>
+    <div class="absolute bottom-0 right-0 md:bottom-2 md:right-14">
+      <div class="text-right mb-0 md:mb-2 mr-6 md:mr-0">
+        <a class="btn-1 transition duration-500 text-black ease-in-out box-border px-2 py-0 md:px-4 md:py-1 font-medium text-sm md:text-base rounded-md source-sans-pro hover:text-white hover:font-semibold" (click)="logOut()" title="Đăng xuất">ĐĂNG XUẤT</a>
+      </div>
+      <div>
+        <a class="raleway font-medium text-base md:text-xl text-gray-700 hover:text-yellow-400 mr-2 md:mr-0" routerLink="/customer/userdetail" title="Quản lý tài khoản"><i class="invisible opacity-0 md:visible md:opacity-100 mr-2" nz-icon nzType="edit" nzTheme="outline"></i>Quản lý tài khoản</a>
+      </div>
+    </div>
+  </div>
+  <nz-layout class="bg-white w-full">
+      <nz-sider class="bg-white pl-0 lg:pl-6" nzWidth="300px" nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
+        <ul nz-menu class="menu">
+          <li nz-menu-item [nzSelected]="this.isSelected('/track-order')" routerLink="/customer/dashboard/track-order" title="Theo dõi đơn hàng">Theo dõi đơn hàng</li>
+          <li nz-menu-item [nzSelected]="this.isSelected('/choose-service')" routerLink="/customer/dashboard/choose-service" title="Lựa chọn dịch vụ giao hàng">Lựa chọn dịch vụ giao hàng</li>
+          <li nz-menu-item [nzSelected]="this.isSelected('/delivery-management')" routerLink="/customer/dashboard/delivery-management" title="Quản lý lịch sử giao hàng">Quản lý lịch sử giao hàng</li>
+          <li nz-menu-item [nzSelected]="this.isSelected('/statistic')" routerLink="/customer/dashboard/statistic" title="Thống kê số đơn hàng">Thống kê số đơn hàng</li>
+        </ul>
+      </nz-sider>
+      <nz-layout class="bg-white">
+        <nz-content class="relative bg-white">
+          <router-outlet></router-outlet>
+        </nz-content>
+      </nz-layout>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,252 @@
+<nz-content class="content animate__animated animate__fadeInRight">
+  <div class="txt-sign ">Thông tin đăng ký</div>
+  <div class="stp-ctn">
+    <div class="stp-cnt">
+      <i nz-icon nzType="arrow-left" nzTheme="outline" class="stp-icn" (click)="backStep()" [ngClass]="steps == 1 || steps == 4 ? 'hide' : 'show'" ></i>
+      <div class="stp-txt">Bước</div>
+      <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 1" (click)="change(1)" >1</a>
+      <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 2" (click)="nextStep()">2</a>
+      <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 3" (click)="nextStep()">3</a>
+      <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 4" (click)="nextStep()">4</a>
+      <i nz-icon nzType="arrow-right" nzTheme="outline" class="stp-icn" (click)="nextStep()" [ngClass]="steps == 4 ? 'hide' : 'show'" ></i>
+    </div>
+  </div>
+
+  <div *ngIf="active">
+    <ng-container>
+      <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+    </ng-container>
+  </div>
+
+  <div *ngIf="steps == 1 && !active">
+    <ng-container *ngTemplateOutlet="step1" ></ng-container>
+  </div>
+  <ng-template #step1>
+    <div class="stp-frm-1 animate__animated animate__fadeInLeft" >
+      <div class="stp-frm">
+        <form nz-form [formGroup]="signUpForm" class="frm-1">
+          <fieldset formGroupName="firstForm">
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="userName">Tên đăng nhập</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorUsername">
+                <input nz-input placeholder="Nhập tên đăng nhập" formControlName="userName" id="userName" (keyup.enter)="nextStep()">
+                <ng-template #errorUsername let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Tên đăng nhập không được trống</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('minlength')">
+                    <div>Tên đăng nhập phải có 8 kí tự</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('whitespace')">
+                    <div>Tên đăng nhập chỉ có khoảng cách</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8'  nzFor="passWord">Mật khẩu</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errpassword">
+                <input class="py-1 border-gray-300 text-sm" [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu" formControlName="passWord" id="passWord" (ngModelChange)="updateConfirmValidator()" autocomplete="off" (keyup.enter)="nextStep()"/>
+                <i nz-icon style="cursor: pointer" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" class="eye"></i>
+              </nz-form-control>
+              <ng-template #errpassword let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Mật khẩu không được trống</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('minlength')">
+                  <div>Mật khẩu phải có 8 kí tự</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Mật khẩu phải có chữ hoa, chữ thường, số và kí tự đặc biệt</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="repassWord">Nhập lại mật khẩu</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorRePass">
+                <input class="py-1 border-gray-300 text-sm" nz-input [type]="rePasswordVisible ? 'text' : 'password'" placeholder="Nhập lại mật khẩu" formControlName="repassWord" id="repassWord" (keyup.enter)="nextStep()">
+                <i nz-icon style="cursor: pointer" [nzType]="rePasswordVisible? 'eye-invisible' : 'eye'" (click)="rePasswordVisible = !rePasswordVisible" class="eye"></i>
+              </nz-form-control>
+              <ng-template #errorRePass let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Vui lòng nhập lại mật khẩu</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('confirm')">
+                  <div>Mật khẩu nhập lại không chính xác!</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="soDT">Số điện thoại</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Số điện thoại không được trống">
+                <input nz-input placeholder="Nhập số điện thoại" formControlName="soDT" id="soDT" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="email">Email</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="emailErrorTpl">
+                <input nz-input placeholder="Nhập email" formControlName="email" id="email" (keyup.enter)="nextStep()">
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">
+                    <div>Email không đúng định dạng!</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Email không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="steps == 2 && !active">
+    <ng-container *ngTemplateOutlet="step2"></ng-container>
+  </div>
+  <ng-template #step2>
+    <div class="stp-frm-1 animate__animated animate__fadeInLeft">
+      <div class="stp-frm">
+        <form nz-form [formGroup]="signUpForm" class="frm-1">
+          <fieldset formGroupName="secondForm">
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="tenDN">Tên doanh nghiệp</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Tên doanh nghiệp không được trống">
+                <input nz-input placeholder="Nhập tên doanh nghiệp" formControlName="tenDN" id="tenDN" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="diaChi">Địa chỉ</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Địa chỉ không được trống">
+                <input nz-input placeholder="Nhập địa chỉ" formControlName="diaChi" id="diaChi" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="nguoiDD">Người đại diện</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Tên người đại diện không được trống">
+                <input nz-input placeholder="Nhập người đại diện" formControlName="nguoiDD" id="nguoiDD" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="chucVu">Chức vụ</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Chức vụ người đại diện không được trống">
+                <input nz-input placeholder="Nhập chức vụ" formControlName="chucVu" id="chucVu" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="maSoThue">Mã số thuế</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Mã số thuế không được trống">
+                <input nz-input placeholder="Nhập mã số thuế" formControlName="maSoThue" id="maSoThue" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="steps == 3 && !active">
+    <ng-container *ngTemplateOutlet="step3" ></ng-container>
+  </div>
+  <ng-template #step3>
+    <div class="stp-frm-1 animate__animated animate__fadeInLeft">
+      <div class="stp-frm frm1">
+        <form nz-form [formGroup]="signUpForm" class="frm-1">
+          <fieldset formGroupName="thirdForm">
+            <div nz-row [nzGutter]="24" class="row">
+            <div nz-col [nzSpan]="12" class="col-left">
+
+              <nz-form-label  nzFor="ques1">Bạn thường vận chuyển những loại mặt hàng nào?</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Trường nhập không được trống">
+                  <input class="ip" nz-input placeholder="Nhập câu trả lời" formControlName="ques1" id="ques1" (keyup.enter)="nextStep()">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-label nzFor="ques2">Số lượng giao dịch hàng tháng</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Trường nhập không được trống">
+                  <input class="ip" nz-input placeholder="Nhập câu trả lời" formControlName="ques2" id="ques2" (keyup.enter)="nextStep()" >
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-label nzFor="ques3">Khu vực vận chuyển</nz-form-label>
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-select class="select ip" [nzSize]='size' nzPlaceHolder="Chọn khu vực vận chuyển" formControlName="ques3" id="ques3" (keyup.enter)="nextStep()">
+                    <nz-option *ngFor="let item of districtArray" [nzValue]="item.DistrictName" [nzLabel]="item.DistrictName"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col [nzSpan]='12' class="col-right">
+
+              <nz-form-label nzFor="website">Website</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Trường nhập không được trống">
+                  <input class="ip" nz-input placeholder="Nhập tên website" formControlName="website" id="website" (keyup.enter)="nextStep()">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-label nzFor="moTa">Mô tả</nz-form-label>
+              <nz-form-item>
+                <nz-form-control [nzErrorTip]="errmoTa">
+                  <nz-textarea-count [nzMaxCharacterCount]="1000">
+                    <textarea class="ip" placeholder="Mô tả về doanh nghiệp" rows="5" nz-input formControlName="moTa" id="moTa" (keyup.enter)="nextStep()"></textarea>
+                  </nz-textarea-count>
+                  <ng-template #errmoTa let-control>
+                    <ng-container *ngIf="control.hasError('maxlength')">
+                      <div>Trường nhập quá 100 kí tự</div>
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('required')">
+                      <div>Trường nhập không được trống</div>
+                    </ng-container>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="steps == 4 && !active">
+    <ng-container *ngTemplateOutlet="step4" ></ng-container>
+  </div>
+  <ng-template #step4>
+    <div class="animate__animated animate__fadeInLeft flex justify-center">
+      <div>
+        <div class="text-center text-xl txt-success raleway my-2">Đã đăng ký thành công</div>
+        <div class="text-center text-lg raleway my-2">
+          eDose đã gửi email xác thực đến doanh nghiệp.
+        </div>
+        <div class="text-center text-lg raleway my-2">
+          Hãy kiểm tra email và xác thực tài khoản !
+        </div>
+        <div class="text-center mt-2">
+          <a routerLink="/business/signin" class="raleway text-base signin rounded-lg border border-gray-300 px-5 py-1 hover:font-semibold hover:text-yellow-500">Đăng nhập</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</nz-content>
+<div class="flex justify-center" >
+  <button *ngIf="steps == 3; else buocTiep" class="mt-4 txt-signup text-4xl font-normal cursor-pointer transition duration-500 ease-in-out transform hover:translate-y-1 px-6 py-3" (click)="onSubmit()">Đăng ký</button>
+</div>
+<ng-template #buocTiep>
+  <button [ngClass]="steps==4 ? 'opacity-0 invisible' : 'opacity-100 visible'" class="mt-4 txt-signup text-4xl font-normal cursor-pointer transition duration-500 ease-in-out transform hover:translate-y-1 px-6 py-3" (click)="onSubmit()">Tiếp theo</button>
+</ng-template>

@@ -1,0 +1,61 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div *ngIf="!active">
+  <nz-content class="content">
+    <div class="txt-forgot">Đổi mật khẩu</div>
+    <form nz-form class="frm-su" [formGroup]="changePass">
+      <div nz-row [nzGutter]="24" class="row">
+        <div nz-col [nzSpan]="16">
+          <nz-form-item>
+            <nz-form-label [nzSpan]='8' class="lb" nzRequired nzFor="email">Địa chỉ email</nz-form-label>
+            <nz-form-control [nzSpan]='16'>
+              <input class="disabled" nz-input readonly (keyup.enter)="changePassForgot()" formControlName="email" id="email">
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]='8' nzRequired nzFor="password">Mật khẩu</nz-form-label>
+            <nz-form-control  [nzSpan]='16' [nzErrorTip]="errpassword">
+              <input class="py-1" [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu" formControlName="password" id="password" (keyup.enter)="changePassForgot()" (ngModelChange)="updateConfirmValidator()" autocomplete="off"/>
+              <i nz-icon style="cursor: pointer" [nzType]="passwordVisible? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" class="eye"></i>
+            </nz-form-control>
+            <ng-template #errpassword let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Mật khẩu không được trống</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('minlength')">
+                <div>Mật khẩu phải có 8 kí tự</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">
+                <div>Mật khẩu phải có chữ hoa, chữ thường, số và kí tự đặc biệt</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]='8' nzRequired nzFor="nhaplaimatKhau">Nhập lại mật khẩu</nz-form-label>
+            <nz-form-control  [nzSpan]='16' [nzErrorTip]="repassErr">
+              <input class="py-1" nz-input [type]="rePasswordVisible ? 'text' : 'password'" placeholder="Nhập lại mật khẩu" formControlName="nhaplaimatKhau" id="nhaplaimatKhau" (keyup.enter)="changePassForgot()" >
+              <i nz-icon style="cursor: pointer" [nzType]="rePasswordVisible? 'eye-invisible' : 'eye'" (click)="rePasswordVisible = !rePasswordVisible" class="eye"></i>
+              <ng-template #repassErr let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Vui lòng nhập lại mật khẩu</div>
+              </ng-container>
+              <ng-container *ngIf="control.hasError('confirm')">
+                <div>Mật khẩu nhập lại không chính xác!</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    </form>
+    <div class="form-sign-btn img">
+      <button (click)="changePassForgot()" class="btn bg-blue-200 transition duration-500 ease-in-out hover:bg-blue-500 hover:text-white text-base font-medium">Xác nhận</button>
+    </div>
+  </nz-content>
+  <nz-footer class="footer">
+    <div class="txt-foo" [routerLink]="['/customer/signin']">Đăng nhập</div>
+  </nz-footer>
+</div>

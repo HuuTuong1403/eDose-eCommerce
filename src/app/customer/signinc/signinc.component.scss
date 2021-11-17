@@ -1,0 +1,63 @@
+input{
+  width: 100%;
+  border-radius: 15px;
+}
+
+.content{
+  background-color: white;
+}
+
+.form-sign{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 10%;
+}
+
+.form{
+  margin-left: 20px;
+  position: relative;
+  width: 25%;
+  .eye{
+    position: absolute;
+    top: 27%;
+    right: 10px
+  }
+}
+
+.txt-sdt{
+  font-family: Raleway;
+  font-style: normal;
+  margin-top: 3px;
+  font-weight: 500;
+  font-size: 20px;
+  color: #000000;
+  text-indent: 10px;
+}
+
+.btn-in{
+  background: linear-gradient(180deg, #B8FAFF 0%, rgba(226, 253, 255, 0) 100%);
+  color: #35695A;
+}
+
+.fg-pass{
+  color: #418E94;
+}
+.fg-pass:hover{
+  color: rgb(69, 142, 226);
+}
+
+.txt-no-account{
+  font-family: Pacifico;
+}
+
+.txt-signin{
+  font-family: Pacifico;
+  color: #418E94;
+  position: relative;
+}
+.txt-signin:hover{
+  color: rgb(69, 142, 226);
+}
+
+

@@ -1,0 +1,103 @@
+<nz-skeleton [nzActive]="true" [nzLoading]="loading">
+  <div class="container" *ngIf="err !== 404">
+    <div class="title-text-admin">Quản lý danh sách khách hàng</div>
+    <nz-spin [nzSpinning]="isSpinning">
+      <div class="table">
+        <nz-table #basicTable nzBordered [nzData]="khachHang">
+          <thead>
+            <tr>
+              <th>Tên khách hàng</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of khachHang">
+            <tr *ngIf="flaq == 0 && item.tinhTrang === 'no authentication' ">
+              <td>{{ item.hoVaTen }}</td>
+              <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+            </tr>
+            <tr *ngIf="flaq == 1 && item.tinhTrang == 'Verified'">
+              <td>{{ item.hoVaTen }}</td>
+              <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+            </tr>
+            <tr *ngIf="flaq == 2 && item.tinhTrang == 'Blocked'">
+              <td>{{ item.hoVaTen }}</td>
+              <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-spin>
+
+    <nz-modal *ngIf="detailKhachHang" [nzWidth]="750" [(nzVisible)]="isVisibleDetail" [nzFooter]="null" (nzOnCancel)="cancelDetail()" nzCentered>
+      <div class="detail-container">
+        <div class="detail-header">
+          <div class="header-top">Chi tiết</div>
+          <div class="header-bottom">
+            <div class="txt-name">{{ detailKhachHang.hoVaTen }}</div>
+            <div *ngIf="flaq === 0 || flaq === 1">
+              <button class="btn mr-7 bg-yellow-200 transition duration-500 ease-in-out hover:bg-yellow-400 text-black hover:text-white" (click)="openDialog('khóa khách hàng', isVisibleDetail, detailKhachHang._id)">Khóa<i class="ml-2" nz-icon nzType="lock" nzTheme="fill"></i></button>
+              <button class="btn mr-7 bg-red-200 transition duration-500 ease-in-out hover:bg-red-400 text-black hover:text-white"  (click)="openDialog('xóa khách hàng', isVisibleDetail, detailKhachHang._id)">Xóa<i class="ml-2" nz-icon nzType="delete" nzTheme="fill"></i></button>
+            </div>
+            <div *ngIf="flaq === 2">
+              <button class="btn bg-green-200 transition duration-500 ease-in-out hover:bg-green-400 text-black hover:text-white" (click)="openDialog('mở khóa khách hàng',isVisibleDetail, detailKhachHang._id)">Mở Khóa<i class="ml-2" nz-icon nzType="unlock" nzTheme="fill"></i></button>
+            </div>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <div class="detail-body">
+          <div class="body-left">
+            <div class="text-header">Username</div>
+            <div class="text-body">{{ detailKhachHang.tenDangNhap }}</div>
+            <div class="text-header">Họ và tên</div>
+            <div class="text-body">{{ detailKhachHang.hoVaTen }}</div>
+          </div>
+          <div class="body-right">
+            <div class="text-header">Số điện thoại</div>
+            <div class="text-body">{{ detailKhachHang.soDienThoai }}</div>
+            <div class="text-header">Địa chỉ</div>
+            <div class="text-body">{{ detailKhachHang.diaChi }}</div>
+          </div>
+        </div>
+      </div>
+    </nz-modal>
+
+    <div class="right-afflix">
+      <ul nz-menu class="sider-menu">
+        <li nz-menu-item nzSelected (click)="clickToChangeChuaXacThuc($event)">
+          Chưa xác thực
+          <nz-badge [nzCount]="countChuaXacThuc"></nz-badge>
+        </li>
+        <li nz-menu-item (click)="clickToChangeDaXacThuc($event)">
+          Đã xác thực
+          <nz-badge [nzCount]="countDaXacThuc"></nz-badge>
+        </li>
+        <li nz-menu-item (click)="clickToChangeKhoa($event)">
+          Khóa
+          <nz-badge [nzCount]="countKhoa"></nz-badge>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--display err = 404-->
+  <nz-result *ngIf="err === 404" nzStatus="404" nzTitle="404" nzSubTitle="Xin lỗi, trang bạn ghé đến không tồn tại">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink='/'>Back Home</button>
+    </div>
+  </nz-result>
+
+  <!--display err = 403 -->
+  <nz-result *ngIf="err === 403" nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized to access this page.">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink="/">Trở về</button>
+    </div>
+  </nz-result>
+
+
+  <!--display err = 500 -->
+  <nz-result *ngIf="err === 500" nzStatus="500" nzTitle="500" nzSubTitle="Xin lỗi, có sự cố ở máy chủ">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink='/'>Trở về</button>
+    </div>
+  </nz-result>
+</nz-skeleton>

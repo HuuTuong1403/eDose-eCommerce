@@ -1,0 +1,49 @@
+.notify-header{
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+.notify-content{
+  text-align: center;
+  font-weight: normal;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.notify-footer{
+  text-align: center;
+  padding: 0 10px !important;
+  justify-content: space-between;
+}
+.btn{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+}
+.btn:after{
+  content: '';
+  position: absolute;
+  left: auto;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #FE0098;
+  transition: width 0.25s linear;
+}
+.btn:hover:after{
+  width: 100%;
+  left: 0;
+  right: auto;
+}
+.btn-decline{
+  color: black;
+  margin-right: 10px;
+}
+.btn-accept{
+  color: red;
+  margin-left: 20px;
+}

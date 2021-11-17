@@ -1,0 +1,368 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div class="container">
+  <div class="title-text-customer text-center lg:text-left">Lựa chọn dịch vụ giao hàng</div>
+  <div *ngIf="steps === 1 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step1"></ng-container>
+  </div>
+  <div *ngIf="steps === 2 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step2"></ng-container>
+  </div>
+  <div *ngIf="steps === 3 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step3"></ng-container>
+  </div>
+  <div *ngIf="steps === 4 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step4"></ng-container>
+  </div>
+  <div *ngIf="steps === 5 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step5"></ng-container>
+  </div>
+
+  <ng-template #step1>
+    <div class="w-full ml-0 mt-10 lg:mt-4 px-3">
+      <form nz-form [formGroup]="chooseService" class="frm-address">
+        <fieldset formGroupName="addressForm">
+
+          <div class="md:flex w-full md:justify-center">
+            <nz-form-item class="w-full md:w-1/2 mr-2">
+              <nz-form-label class="mr-3" nFor="addressFrom">Nhập địa chỉ lấy hàng</nz-form-label>
+              <nz-form-control nzErrorTip="Địa chỉ lấy hàng không được trống">
+                <input nz-input placeholder="Nhập địa chỉ lấy hàng" formControlName="addressFrom" id="addressFrom" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="w-full md:w-1/4 mr-2">
+              <nz-form-control nzErrorTip="Quận/huyện lấy hàng không được trống">
+                <nz-select class="" [nzSize]='size' nzPlaceHolder="Chọn quận/huyện lấy hàng" formControlName="sender_district" id="sender_district"  (keyup.enter)="nextStep()" (ngModelChange)="onChangeDistrict($event, 'Send')">
+                  <nz-option *ngFor="let item of district" [nzValue]="item.DistrictName" [nzLabel]="item.DistrictName"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="w-full md:w-1/4 mr-2">
+              <nz-form-control nzErrorTip="Phường/xã lấy hàng không được trống">
+                <nz-select class="" [nzSize]='size' nzPlaceHolder="Chọn phường/xã lấy hàng" formControlName="sender_ward" id="sender_ward" [(ngModel)]="Send"  (keyup.enter)="nextStep()" (ngModelChange)="onChangeWard($event, 'Send')">
+                  <nz-option *ngFor="let item of wardSend" [nzValue]="item.WardName + '/' + item.WardCode" [ngValue]="item.WardCode" [nzLabel]="item.WardName"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="md:flex w-full md:justify-center">
+            <nz-form-item class="w-full md:w-1/2 mr-2">
+              <nz-form-label nFor="addressTo">Nhập địa chỉ nhận hàng</nz-form-label>
+              <nz-form-control nzErrorTip="Địa chỉ nhận hàng không được trống">
+                <input nz-input placeholder="Nhập địa chỉ giao hàng" formControlName="addressTo" id="addressTo" (keyup.enter)="nextStep()">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="w-full md:w-1/4 mr-2 ">
+              <nz-form-control nzErrorTip="Quận/huyện nhận hàng không được trống">
+                <nz-select class="" [nzSize]='size' nzPlaceHolder="Chọn quận/huyện nhận hàng" formControlName="receiver_district" id="receiver_district" (keyup.enter)="nextStep()" (ngModelChange)="onChangeDistrict($event, 'Receiver')">
+                  <nz-option *ngFor="let item of district" [nzValue]="item.DistrictName" [nzLabel]="item.DistrictName"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="w-full md:w-1/4 mr-2">
+              <nz-form-control nzErrorTip="Phường/xã nhận hàng không được trống">
+                <nz-select class="" [nzSize]='size' nzPlaceHolder="Chọn phường/xã nhận hàng" formControlName="receiver_ward" id="receiver_ward" [(ngModel)]="Receiver" (keyup.enter)="nextStep()" (ngModelChange)="onChangeWard($event, 'Receiver')">
+                  <nz-option *ngFor="let item of wardReceiver" [nzValue]="item.WardName+ '/' + item.WardCode " [nzLabel]="item.WardName"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+        </fieldset>
+      </form>
+      <div class="gr">
+        <button class="gr-btn back"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Lùi</button>
+        <button class="gr-btn" (click)="nextStep()">Tiếp<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #step2>
+    <div class="w-full md:w-2/3 ml-0 md:ml-10 mt-8 md:mt-4 px-1 md:px-3">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nFor="addressFrom">Địa chỉ lấy hàng</nz-form-label>
+        <nz-form-control [nzSpan]=" 16" nzErrorTip="Địa chỉ nhận hàng không được trống">
+          <input nz-input readonly class="bg-gray-300" [(ngModel)]="From">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nFor="addressTo">Địa chỉ giao hàng</nz-form-label>
+        <nz-form-control [nzSpan]=" 16" nzErrorTip="Địa chỉ giao hàng không được trống">
+          <input nz-input readonly class="bg-gray-300" [(ngModel)]="To">
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="gr">
+        <button class="gr-btn" (click)="backStep()"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Lùi</button>
+        <button class="gr-btn" (click)="nextStep()">Tiếp<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #step3>
+    <div class="w-full lg:w-11/12 mt-9 md:mt-0" *ngIf="user">
+      <div class="txt-frm text-center lg:text-left">
+        Điền thông tin giao hàng của bạn
+      </div>
+      <div class="frm-order-1 border border-black rounded-xl px-6 py-3 w-full">
+        <form class="w-full" nz-form [formGroup]="chooseService">
+          <fieldset formGroupName="OrderForm" class="md:flex w-full">
+            <div class="w-full md:w-1/2">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="marchandiseName">Tên hàng hóa</nz-form-label>
+                <nz-form-control [nzSpan]="16" nzErrorTip="Tên hàng hóa không được trống">
+                  <input nz-input placeholder="Nhập tên hàng hóa" formControlName="marchandiseName" id="marchandiseName" (keyup.enter)="nextStep()">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="weight">Khối lượng hàng (g)</nz-form-label>
+                <nz-form-control [nzSpan]="16" [nzErrorTip]="errorWeight">
+                  <input (keyup.enter)="nextStep()" placeholder="Nhập khối lượng hàng hóa" nz-input formControlName="weight" id="weight">
+                </nz-form-control>
+                <ng-template #errorWeight let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">
+                    <div>Khối lượng hàng hóa phải là số</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Khối lượng hàng hóa không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="value">Giá trị hàng hóa</nz-form-label>
+                <nz-form-control [nzSpan]="16" [nzErrorTip]="errorValue">
+                  <input (keyup.enter)="nextStep()" placeholder="Nhập giá trị hàng hóa" nz-input formControlName="value" id="value">
+                </nz-form-control>
+                <ng-template #errorValue let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">
+                    <div>Giá trị hàng hóa phải là số</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Giá trị hàng hóa không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="length">Chiều dài hàng (cm)</nz-form-label>
+                <nz-form-control [nzSpan]="16" [nzErrorTip]="errorLength">
+                  <input (keyup.enter)="nextStep()" placeholder="Nhập chiều dài hàng hóa" nz-input formControlName="length" id="length">
+                </nz-form-control>
+                <ng-template #errorLength let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">
+                    <div>Chiều dài hàng hóa phải là số</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Chiều dài hàng hóa không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="height">Chiều cao hàng (cm)</nz-form-label>
+                <nz-form-control [nzSpan]="16" [nzErrorTip]="errorHeight">
+                  <input (keyup.enter)="nextStep()" placeholder="Nhập chiều cao hàng hóa" nz-input formControlName="height" id="height">
+                </nz-form-control>
+                <ng-template #errorHeight let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">
+                    <div>Chiều cao hàng hóa phải là số</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Chiều cao hàng hóa không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nFor="width">Chiều rộng hàng (cm)</nz-form-label>
+                <nz-form-control [nzSpan]="16" [nzErrorTip]="errorWidth">
+                  <input (keyup.enter)="nextStep()" placeholder="Nhập chiều rộng hàng hóa" nz-input formControlName="width" id="width">
+                </nz-form-control>
+                <ng-template #errorWidth let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">
+                    <div>Chiều rộng hàng hóa phải là số</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Chiều rộng hàng hóa không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-item>
+            </div>
+            <div class="w-full md:w-1/2">
+              <div class="mx-0 md:mx-8">
+                <div class="text-header">Địa chỉ lấy hàng</div>
+                <div class="text-body">{{ From }}</div>
+                <div class="text-header">Địa chỉ giao hàng</div>
+                <div class="text-body mb-3">{{ To }}</div>
+
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="8" nFor="soDienThoai">Số điện thoại</nz-form-label>
+                  <nz-form-control [nzSpan]="16" nzErrorTip="Số điện thoại không được trống">
+                    <input (keyup.enter)="nextStep()" nz-input formControlName="soDienThoai" id="soDienThoai">
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="8" nFor="hoTen">Họ tên</nz-form-label>
+                  <nz-form-control [nzSpan]="16" nzErrorTip="Họ tên không được trống">
+                    <input (keyup.enter)="nextStep()" nz-input formControlName="hoTen" id="hoTen">
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="8" nFor="email">Email</nz-form-label>
+                  <nz-form-control [nzSpan]="16" nzErrorTip="Email không được trống">
+                    <input (keyup.enter)="nextStep()" nz-input formControlName="email" id="email">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="gr">
+        <button class="gr-btn" (click)="backStep()"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Lùi</button>
+        <button class="gr-btn" (click)="nextStep()">Tiếp<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #step4>
+    <div class="mt-10 lg:mt-0 px-3">
+      <div class="lg:flex lg:justify-between w-full">
+        <div class="w-full lg:w-1/2">
+          <div class="raleway font-medium text-lg">Chọn doanh nghiệp giao hàng bạn muốn:</div>
+          <div class="mt-4 ml-7">
+            <form nz-form [formGroup]="chooseService">
+              <fieldset formGroupName="doanhNghiepForm">
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Hãy chọn doanh nghiệp bạn muốn">
+                    <nz-radio-group formControlName="doanhNghiep" (ngModelChange)="choosePromotionCompany($event)">
+                      <label *ngIf="superShip; else noSuperShip" nz-radio [nzValue]="nameIdSuperShip"><span class="ml-5 font-semibold text-lg raleway">SUPERSHIP VIETNAM | Chi phí: {{ superShip.fee | currency:"VND"}}</span></label>
+
+                      <ng-template #noSuperShip>
+                        <div class="ml-5 my-2 font-semibold text-lg raleway">+ SUPERSHIP VIETNAM không hỗ trợ vận chuyển đơn hàng này hoặc doanh nghiệp này không đăng ký sử dụng gói dịch vụ</div>
+                      </ng-template>
+
+                      <label *ngIf="giaoHangTietKiem; else noGiaoHangTietKiem" nz-radio [nzValue]="nameIdGiaoHangTietKiem"><span class="ml-5 font-semibold text-lg raleway">Giao Hàng Tiết Kiệm | Chi phí: {{ giaoHangTietKiem.fee.fee | currency:"VND"}}</span></label>
+
+                      <ng-template #noGiaoHangTietKiem>
+                        <div class="ml-5 my-2 font-semibold text-lg raleway">+ Giao hàng tiết kiệm không hỗ trợ vận chuyển đơn hàng này hoặc doanh nghiệp này không đăng ký sử dụng gói dịch vụ</div>
+                      </ng-template>
+
+                      <label *ngIf="giaoHangNhanh; else noGiaoHangNhanh" nz-radio [nzValue]="nameIdGiaoHangNhanh"><span class="ml-5 font-semibold text-lg raleway">Giao Hàng Nhanh | Chi phí {{ giaoHangNhanh.data.total | currency:"VND"}}</span></label>
+
+                      <ng-template #noGiaoHangNhanh>
+                        <div class="ml-5 my-2 font-semibold text-lg raleway">+ Giao hàng nhanh không hỗ trợ vận chuyển đơn hàng này hoặc doanh nghiệp này không đăng ký sử dụng gói dịch vụ</div>
+                      </ng-template>
+
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </fieldset>
+            </form>
+          </div>
+          <div class="w-full" *ngIf="listPromotion.length != 0">
+            <nz-select class="w-11/12" [nzSize]='size' nzPlaceHolder="Chọn mã khuyến mãi" id="maKM" [(ngModel)]="chooseMaKM">
+              <nz-option nzValue="" nzLabel="Không chọn mã khuyến mãi cho đơn hàng này"></nz-option>
+              <nz-option *ngFor="let item of listPromotion" [nzValue]="item" [nzLabel]="item.maKM + ' (' + item.tenKM +')'"></nz-option>
+            </nz-select>
+          </div>
+          <div *ngIf="showMaKM" class="ml-5 my-2 font-semibold text-lg raleway">Doanh nghiệp này không có mã khuyến mãi</div>
+        </div>
+        <div class="w-full lg:w-1/2">
+          <div class="raleway font-medium text-sm text-gray-500">Địa chỉ lấy hàng</div>
+          <div class="raleway font-medium text-lg text-black ml-7">{{ From }}</div>
+          <div class="raleway font-medium text-sm text-gray-500">Địa chỉ giao hàng</div>
+          <div class="raleway font-medium text-lg text-black ml-7">{{ To }}</div>
+          <div class="animate__animated animate__fadeInRight" *ngIf="chooseMaKM">
+            <nz-card [nzTitle]="chooseMaKM.maKM" class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="raleway font-medium text-lg text-black mb-2">Bạn đã chọn mã khuyến mãi <b class="text-red-400">{{ chooseMaKM.maKM }}</b></div>
+              <div class="raleway font-medium text-lg text-black mb-2">Mã khuyến mãi còn trong thời hạn sử dụng đến hết ngày <b class="text-red-400">{{ chooseMaKM.ngayKT | date:'dd/MM/yyyy' }}</b></div>
+              <div class="raleway font-medium text-lg text-black">Giảm giá <b class="text-red-400">{{ chooseMaKM.phanTram }}%/ tổng giá trị đơn hàng</b></div>
+            </nz-card>
+          </div>
+        </div>
+      </div>
+      <div class="gr">
+        <button class="gr-btn" (click)="backStep()"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Lùi</button>
+        <button class="gr-btn" (click)="nextStep()">Đặt hàng<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #step5>
+    <div class="frm-order w-full md:w-11/12 mt-10 lg:mt-0">
+      <div class="txt-frm">
+        Đặt dịch vụ sắp hoàn thành. Đây là thông tin dịch vụ của bạn
+      </div>
+      <div class="flex w-full md:w-11/12 frm-order-1 border border-black rounded-xl px-6 py-3 m-auto" *ngIf="Order && orderDetail">
+        <div class="left w-1/2">
+          <div class="detail-body">
+            <div class="text-header">Mã đơn hàng</div>
+            <div class="text-body">{{ Order._id }}</div>
+            <div class="text-header">Ngày đặt hàng</div>
+            <div class="text-body">{{ Order.ngayDatHang | date:'dd/MM/yyyy' }}</div>
+            <div class="text-header">Khối lượng hàng</div>
+            <div class="text-body">{{ orderDetail.khoiLuong }}g</div>
+            <div class="text-header">Chiều dài</div>
+            <div class="text-body">{{ orderDetail.chieuDai }}cm</div>
+            <div class="text-header">Chiều rộng</div>
+            <div class="text-body">{{ orderDetail.chieuRong }}cm</div>
+            <div class="text-header">Chiều cao</div>
+            <div class="text-body">{{ orderDetail.chieuCao }}cm</div>
+            <div class="text-header">Tổng tiền</div>
+            <div class="text-body">{{ Order.tongTien | currency:"VND" }}</div>
+            <div class="text-header">Khuyến mãi</div>
+            <div *ngIf="chooseMaKM === undefined || chooseMaKM === ''" class="text-body">Đơn hàng không áp dụng mã khuyến mãi</div>
+            <div *ngIf="chooseMaKM" class="text-body">Đang áp dụng mã khuyến mãi: {{ chooseMaKM.maKM }}</div>
+          </div>
+        </div>
+        <div class="right w-1/2">
+          <div class="detail-body">
+            <div class="text-header">Doanh nghiệp giao hàng</div>
+            <div class="text-body">{{ Order.doanhNghiepGiaoHang.tenDN }}</div>
+            <div class="text-header">Địa chỉ lấy hàng</div>
+            <div class="text-body">{{ From }}</div>
+            <div class="text-header">Địa chỉ giao hàng</div>
+            <div class="text-body">{{ To }}</div>
+            <div class="text-header">Số điện thoại người đặt</div>
+            <div class="text-body">{{ Order.soDT }}</div>
+            <div class="text-header">Họ tên</div>
+            <div class="text-body">{{ Order.khachHang.hoVaTen }}</div>
+            <div class="text-header">Email</div>
+            <div class="text-body">{{ Order.khachHang.email }}</div>
+            <div class="text-header">Chọn phương thức thanh toán:</div>
+            <form nz-form [formGroup]="chooseService">
+              <fieldset formGroupName="choosePayment">
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Hãy chọn phương thức thanh toán">
+                    <nz-radio-group formControlName="payment">
+                      <label class="mb-1" nz-radio nzValue="PayPal"><span class="ml-5 font-semibold text-base raleway">Thanh toán bằng <img src="../../../../assets/images/paypal.png" class="img-paypal ml-1"></span></label>
+                      <label nz-radio nzValue="VNPay"><span class="ml-5 font-semibold text-base raleway">Thanh toán bằng <img src="https://res.cloudinary.com/university-of-education-technology/image/upload/v1623995602/logo-business/rc6mwoyt4ybwe5rnlgyy.png" class="img-vnpay ml-1"></span></label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="gr">
+        <button class="gr-btn" (click)="cancelOrder()"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Hủy đơn hàng</button>
+        <button class="gr-btn" (click)="nextStep()">Thanh toán<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+</div>

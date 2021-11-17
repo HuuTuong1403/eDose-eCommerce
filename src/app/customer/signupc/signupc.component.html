@@ -1,0 +1,122 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div *ngIf="!active" class="animate__animated animate__fadeInRight">
+  <ng-container *ngTemplateOutlet="notActive"></ng-container>
+</div>
+<ng-template #notActive>
+  <nz-content class="content mt-6">
+    <div class="txt-sign">Thông tin đăng ký</div>
+    <div class="form-sign mt-14">
+      <form nz-form class="frm-su" [formGroup]="signUpForm">
+        <div nz-row [nzGutter]="16" class="row">
+          <div nz-col [nzSpan]="8" class="col-left">
+            <nz-form-item>
+              <nz-form-label nzRequired [nzSpan]='8' nzFor="hoVaTen">Họ và tên</nz-form-label>
+              <nz-form-control [nzSpan]='16' nzErrorTip="Họ và tên không được trống">
+                <input nz-input placeholder="Nhập họ và tên" formControlName="hoVaTen" id="hoVaTen">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzcol nzRequired [nzSpan]='8' nzFor="tenDangNhap">Tên đăng nhập</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorUsername">
+                <input nz-input placeholder="Nhập tên đăng nhập" autocomplete="off" formControlName="tenDangNhap" id="tenDangNhap">
+                <ng-template #errorUsername let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Tên đăng nhập không được trống</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('minlength')">
+                    <div>Tên đăng nhập phải có 8 kí tự</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('whitespace')">
+                    <div>Tên đăng nhập chỉ có khoảng cách</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8'  nzFor="matKhau">Mật khẩu</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errpassword">
+                <input class="py-1 border-gray-300 text-sm" [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu" formControlName="matKhau" id="matKhau" (ngModelChange)="updateConfirmValidator()" autocomplete="off"/>
+                <i nz-icon style="cursor: pointer" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" class="eye"></i>
+              </nz-form-control>
+              <ng-template #errpassword let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Mật khẩu không được trống</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('minlength')">
+                  <div>Mật khẩu phải có 8 kí tự</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Mật khẩu phải có chữ hoa, chữ thường, số và kí tự đặc biệt</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8' nzFor="nhaplaimatKhau">Nhập lại mật khẩu</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorRePass">
+                <input class="py-1 border-gray-300 text-sm" nz-input [type]="rePasswordVisible ? 'text' : 'password'" placeholder="Nhập lại mật khẩu" formControlName="nhaplaimatKhau" id="nhaplaimatKhau" >
+                <i nz-icon style="cursor: pointer" [nzType]="rePasswordVisible? 'eye-invisible' : 'eye'" (click)="rePasswordVisible = !rePasswordVisible" class="eye"></i>
+                <ng-template #errorRePass let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Vui lòng nhập lại mật khẩu</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('confirm')">
+                    <div>Mật khẩu nhập lại không chính xác!</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]='8' class="col-right">
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8' nzFor="ngaySinh">Ngày sinh</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Vui lòng chọn ngày sinh">
+                <nz-date-picker nzPlaceHolder="Chọn ngày sinh" nzFormat="dd/MM/yyyy" [nzDefaultPickerValue]="1/1/1" formControlName='ngaySinh' id="ngaySinh" ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8' nzFor="soDienThoai">Số điện thoại</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16'  [nzErrorTip]="phoneErrorTpl">
+                <input nz-input placeholder="Nhập số điện thoại" formControlName="soDienThoai" id="soDienThoai">
+                <ng-template #phoneErrorTpl let-control>
+                  <ng-contaier *ngIf="control.hasError('required')">
+                    <div>Số điện thoại không được trống</div>
+                  </ng-contaier>
+                  <ng-container *ngIf="control.hasError('minlength')">
+                    <div>Số điện thoại không đúng</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8' nzFor="email">Email</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="emailErrorTpl">
+                <input nz-input placeholder="Nhập email" formControlName="email" id="email" >
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">
+                    <div>Email không đúng định dạng!</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div>Email không được trống</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzcol [nzSpan]='8' nzFor="diaChi">Địa chỉ</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Địa chỉ không được trống">
+                <input nz-input placeholder="Nhập địa chỉ" formControlName="diaChi" id="diaChi" >
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nz-content>
+  <div class="flex justify-center">
+    <button class="mt-4 txt-signup text-4xl font-normal cursor-pointer transition duration-500 ease-in-out transform hover:translate-y-1 px-6 py-3" (click)="submitForm()">Đăng ký</button>
+  </div>
+</ng-template>

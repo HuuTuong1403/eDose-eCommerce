@@ -1,0 +1,67 @@
+.header{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+.gr{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lo3{
+  background-color: white;
+}
+.menu{
+  margin-top: 10%;
+  min-height: 300px;
+  background-color: #FFFFFF;
+  border: 7px solid rgba(4, 122, 88, 0.19);
+  box-sizing: border-box;
+  border-radius: 33px;
+  max-width: 240px;
+  padding: 15px 0;
+}
+li{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  text-align: center;
+}
+.cnt1{
+  background-color: white;
+  margin: 0 0 0 10px;
+  position: relative;
+}
+
+.ant-menu-item{
+  position: relative;
+  margin-top: 20px;
+}
+.ant-menu-item:after{
+  content: '';
+  position: absolute;
+  left: auto;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background-color: #FE0098;
+  transition: width 0.25s linear;
+}
+.ant-menu-item:hover:after{
+  width: 100%;
+  left: 0;
+  right: auto;
+}
+.btn-1{
+  background: rgba(255, 224, 224, 0.58);
+  border: 1.25px solid #575757;
+}
+.btn-1:hover{
+  background: rgba(252, 114, 114, 0.58);
+}
+.raleway{
+  font-family: Raleway;
+}
+.source-sans-pro{
+  font-family: Source Sans Pro;
+}

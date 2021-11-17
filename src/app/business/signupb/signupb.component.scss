@@ -1,0 +1,146 @@
+.content{
+  min-height: 300px;
+  background-color: white;
+}
+
+.txt-sign{
+  margin-bottom: 30px !important;
+}
+.txt-sign:after{
+  width: 245px;
+}
+
+.stp-ctn{
+  display: flex;
+  justify-content: center;
+  .stp-cnt{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    align-items: center;
+  }
+
+  .stp-txt{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    color: #000000;
+    margin-right: 13px;
+    margin-left: 13px;
+  }
+
+  .stp-a{
+    position: relative;
+  }
+  .stp-a:after{
+    content: '';
+    position: absolute;
+    background-color: black;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+  }
+
+
+  .active{
+    color: #FE0098;
+  }
+  .active:after{
+    background-color: #FE0098;
+  }
+
+  .stp-icn{
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
+.show{
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s linear all;
+}
+.hide{
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s linear all;
+}
+
+nz-form-label{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  text-align: left;
+}
+
+input{
+  width: 100%;
+  border-radius: 12px;
+}
+
+.row{
+  justify-content: space-between;
+  margin-left: 0 !important;
+  .ip{
+    width: 80%;
+    border-radius: 20px;
+  }
+}
+
+.stp-frm-1{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  .stp-frm{
+    display: flex;
+    justify-content: center;
+    width: 30%;
+  }
+  .frm1{
+    width: 60% !important;
+    margin-left: 20px;
+  }
+  .frm-1{
+    width: 100%;
+    position: relative;
+  }
+  .eye{
+    position: absolute;
+    right: 5%;
+    top: 30%;
+  }
+}
+
+.txt-signup{
+  font-family: Pacifico;
+  color: #418E94;
+  position: relative;
+  border-bottom: 2px solid #418E94;
+  border-radius: 15px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+.txt-signup:hover{
+  border-bottom: 1px solid rgb(69, 142, 226);
+  color: rgb(69, 142, 226);
+}
+
+.txt-success{
+  color: #FE0098;
+  position: relative;
+}
+.txt-success:after{
+  content: "";
+  position: absolute;
+  background-color: #FF10BC;
+  width: 54%;
+  bottom: -2px;
+  left: 23%;
+  height: 2px;
+}
+.signin{
+  background-color: #AEFFE2;
+}

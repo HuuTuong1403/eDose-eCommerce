@@ -1,0 +1,58 @@
+<nz-layout class="bg-white">
+  <div class="header">
+    <div class="flex justify-center items-center mb-4">
+      <img src="../../../assets/images/logo-header.png" alt="Logo eDose" class="cursor-pointer w-1/6 lg:w-1/12" routerLink="/home">
+      <img src="../../../assets/images/name-header.png" alt="Company" class="mt-auto cursor-pointer w-1/6 lg:w-1/12" routerLink="/home">
+    </div>
+  </div>
+
+  <div *ngIf="active">
+    <ng-container>
+      <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+    </ng-container>
+  </div>
+
+  <div *ngIf="!active">
+    <ng-container *ngTemplateOutlet="notActive"></ng-container>
+  </div>
+
+  <ng-template #notActive>
+    <nz-content class="content w-full">
+      <div class="txt-sign-business text-center font-semibold text-3xl mb-10 relative text-black mt-6">Đăng nhập với quản trị viên</div>
+      <div class="flex justify-center w-10/12">
+        <div class="mr-4 w-1/2">
+          <div class="lbl-txt">Tên đăng nhập</div>
+          <div class="lbl-txt">Mật khẩu</div>
+        </div>
+        <form nz-form class="relative w-1/2" [formGroup]="signInForm">
+          <nz-form-item>
+            <nz-form-control [nzErrorTip]="errorUsername">
+              <input type="text" nz-input placeholder="Nhập tên đăng nhập" class="w-2/3" formControlName="inforSignIn" id="inforSignIn"  (keyup.enter)="SignIn()">
+              <ng-template #errorUsername let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Tên đăng nhập không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control [nzErrorTip]="errpassword">
+              <input [type]="passwordVisible ? 'text' : 'password'" class="w-2/3" nz-input placeholder="Nhập mật khẩu" formControlName="password" id="password"  (keyup.enter)="SignIn()"/>
+              <i nz-icon style="cursor: pointer" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" class="absolute top-3 right-48"></i>
+              <ng-template #errpassword let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Mật khẩu không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div class="flex justify-center w-full mt-4">
+        <button class="btn btn-in border w-1/5 border-gray-800 raleway text-xl transition duration-500 ease-in-out transform hover:translate-y-1" (click)="SignIn()">Đăng nhập</button>
+      </div>
+    </nz-content>
+  </ng-template>
+
+</nz-layout>

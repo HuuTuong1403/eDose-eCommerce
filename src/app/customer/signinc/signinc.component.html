@@ -1,0 +1,54 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div *ngIf="!active" class="animate__animated animate__fadeInLeft">
+  <ng-container *ngTemplateOutlet="notActive"></ng-container>
+</div>
+<ng-template #notActive>
+  <nz-content class="content mt-6">
+    <div class="txt-sign">Đăng nhập</div>
+    <div class="form-sign">
+      <div class="lbl">
+        <div class="lbl-txt">Tên đăng nhập</div>
+        <div class="lbl-txt">Mật khẩu</div>
+      </div>
+      <form nz-form class="form" [formGroup]="signInform">
+
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="errorUsername">
+            <input type="text" nz-input placeholder="Nhập tên đăng nhập" (keyup.enter)="SignIn()" formControlName="inforSignIn" id="inforSignIn">
+            <ng-template #errorUsername let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Tên đăng nhập không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="errpassword">
+            <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu" name="PassWord" (keyup.enter)="SignIn()" formControlName="password" id="password"/>
+            <i nz-icon style="cursor: pointer" [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" class="eye"></i>
+            <ng-template #errpassword let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                <div>Mật khẩu không được trống</div>
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+      <div class="txt-sdt">(hoặc SĐT/Email)</div>
+    </div>
+    <a class="fg-pass raleway flex justify-center font-semibold text-xl mb-4 " [routerLink]="['/customer/forgot-pass']">Quên mật khẩu ?</a>
+    <div class="flex justify-center w-full mt-4">
+      <button class="btn btn-in border w-1/5 border-gray-800 raleway text-xl transition duration-500 ease-in-out transform hover:translate-y-1" (click)="SignIn()">Đăng nhập</button>
+    </div>
+  </nz-content>
+  <div class="mt-5 mb-3 txt-no-account font-normal text-3xl text-center">Chưa có tài khoản?</div>
+  <div class="flex justify-center">
+    <div [routerLink]="['/customer/signup']" class="mt-4 txt-signin text-4xl font-normal cursor-pointer transition duration-500 ease-in-out transform hover:-translate-y-2 hover:text-blue-700">Đăng ký</div>
+  </div>
+</ng-template>

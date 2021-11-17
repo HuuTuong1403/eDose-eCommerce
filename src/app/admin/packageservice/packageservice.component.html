@@ -1,0 +1,258 @@
+<nz-skeleton [nzActive]="true" [nzLoading]="active">
+  <div class="container w-full">
+    <div *ngIf="!active && steps == 1">
+      <ng-container *ngTemplateOutlet="default"></ng-container>
+    </div>
+    <div *ngIf="!active && steps == 2" class="animate__animated animate__fadeInUp">
+      <ng-container *ngTemplateOutlet="addPackage"></ng-container>
+    </div>
+
+  </div>
+</nz-skeleton>
+
+<ng-template #default>
+  <div class="title-text-admin">Quản lý gói dịch vụ</div>
+  <div class="text-right w-full">
+    <button class="btn bg-green-300 ml-5 transition duration-500 ease-in-out hover:bg-green-400 hover:text-gray-50" (click)="steps = 2">+ Thêm gói dịch vụ</button>
+  </div>
+  <div class="w-full" *ngIf="goiDichVu.length != 0; else noPackage">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="animate__animated animate__fadeInRight" *ngFor="let item of goiDichVu | paginate: { itemsPerPage: 3, currentPage: p }">
+        <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+          <div class="text-left font-medium text-xl">{{ item.tenGoiDV | uppercase }}</div>
+          <div class="text-center mt-3 text-2xl font-medium">Giá: {{ item.cuocPhi | currency:"VND"}}</div>
+          <div class="text-center mt-5 text-base">Thời gian sử dụng {{ item.thoiGianSuDung }} ngày</div>
+          <div class="text-center mt-5 text-base font-medium">Có {{ item.soDonHang }} đơn hàng</div>
+          <div class="text-center my-5">
+            <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+    <pagination-controls class="text-center" (pageChange)="p = $event"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+  </div>
+
+  <ng-template #noPackage>
+    <div class="title-text-admin mt-5">Gói dịch vụ hiện đang không có vui lòng thêm gói dịch vụ mới</div>
+  </ng-template>
+
+  <nz-modal *ngIf="updateGoiDichVu" [nzWidth]="750" [(nzVisible)]="isVisibleDetail" [nzFooter]="null" (nzOnCancel)="cancelDetail()" nzCentered>
+    <div class="detail-container">
+      <div class="detail-header">
+        <div class="header-top">Chi tiết</div>
+        <div class="header-bottom">
+          <div class="txt-name">{{ updateGoiDichVu.tenGoiDV }}</div>
+          <div *ngIf="isClickUpdate === false">
+            <button class="btn mr-7 bg-indigo-200 transition duration-500 ease-in-out hover:bg-indigo-400 text-black hover:text-white" (click)="clickUpdate(updateGoiDichVu)">Chỉnh sửa</button>
+            <button class="btn bg-red-200 transition duration-500 ease-in-out hover:bg-red-400 text-black hover:text-white" (click)="deletePackage('xóa gói dịch vụ', isVisibleDetail, updateGoiDichVu._id)">Xóa<i class="ml-2" nz-icon nzType="delete" nzTheme="fill"></i></button>
+          </div>
+          <div *ngIf="isClickUpdate === true">
+            <button class="btn bg-indigo-200 transition duration-500 ease-in-out hover:bg-indigo-400 text-black hover:text-white" (click)="isClickUpdate = false">Huỷ chỉnh sửa</button>
+          </div>
+        </div>
+      </div>
+      <nz-divider></nz-divider>
+      <div class="animate__animated animate__fadeInRight" *ngIf="isClickUpdate === true && updateGoiDichVu">
+        <form nz-form [formGroup]="formUpdatePackage" (ngSubmit)="submitForm(updateGoiDichVu._id)">
+          <div>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="maGoiDV">Mã gói dịch vụ</nz-form-label>
+              <nz-form-control [nzSpan]="16" nzErrorTip="Mã gói dịch vụ không được trống">
+                <input placeholder="Nhập mã gói dịch" nz-input formControlName="maGoiDV" id="maGoiDV">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="tenGoiDV">Tên gói dịch vụ</nz-form-label>
+              <nz-form-control [nzSpan]="16" nzErrorTip="Tên gói dịch vụ không được trống">
+                <input placeholder="Nhập tên gói dịch vụ" nz-input formControlName="tenGoiDV" id="tenGoiDV">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="soDonHang">Số đơn hàng</nz-form-label>
+              <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoDonHang">
+                <input placeholder="Nhập số đơn hàng" nz-input formControlName="soDonHang" id="soDonHang">
+              </nz-form-control>
+              <ng-template #errorsoDonHang let-control>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Trường nhập phải là số</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Trường nhập không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="khoiLuongHang">Khối lượng hàng</nz-form-label>
+              <nz-form-control [nzSpan]="16" [nzErrorTip]="errorkhoiLuongHang">
+                <input placeholder="Nhập khối lượng hàng" nz-input formControlName="khoiLuongHang" id="khoiLuongHang">
+              </nz-form-control>
+              <ng-template #errorkhoiLuongHang let-control>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Trường nhập phải là số</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Trường nhập không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="cuocPhi">Cước phí</nz-form-label>
+              <nz-form-control [nzSpan]="16" [nzErrorTip]="errorcuocPhi">
+                <input placeholder="Nhập cước phí" nz-input formControlName="cuocPhi" id="cuocPhi">
+              </nz-form-control>
+              <ng-template #errorcuocPhi let-control>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Trường nhập phải là số</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Trường nhập không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="thoiGianSuDung">Thời gian sử dụng(ngày)</nz-form-label>
+              <nz-form-control [nzSpan]="16" [nzErrorTip]="errorthoiGianSuDung">
+                <input placeholder="Nhập thời gian sử dụng" nz-input formControlName="thoiGianSuDung" id="thoiGianSuDung">
+              </nz-form-control>
+              <ng-template #errorthoiGianSuDung let-control>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  <div>Trường nhập phải là số</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Trường nhập không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-control>
+                <button type="submit" class="btn absolute right-0 bg-green-200 transition duration-500 ease-in-out hover:bg-green-400 text-black hover:text-white">Đồng ý</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </form>
+      </div>
+      <div class="detail-body animate__animated animate__fadeInLeft" *ngIf="isClickUpdate === false">
+        <div class="body-left">
+          <div class="text-header">Mã gói dịch vụ</div>
+          <div class="text-body">{{ updateGoiDichVu.maGoiDV }}</div>
+          <div class="text-header">Tên gói dịch vụ</div>
+          <div class="text-body">{{ updateGoiDichVu.tenGoiDV }}</div>
+          <div class="text-header">Số đơn hàng dịch vụ</div>
+          <div class="text-body">{{ updateGoiDichVu.soDonHang }}</div>
+        </div>
+        <div class="body-right" >
+          <div class="text-header">Khối lượng hàng</div>
+          <div class="text-body">{{ updateGoiDichVu.khoiLuongHang }}</div>
+          <div class="text-header">Thời hạn sử dụng gói</div>
+          <div class="text-body">{{ updateGoiDichVu.thoiGianSuDung }}</div>
+          <div class="text-header">Cước phí</div>
+          <div class="text-body">{{ updateGoiDichVu.cuocPhi }}</div>
+        </div>
+      </div>
+    </div>
+  </nz-modal>
+</ng-template>
+
+<ng-template #addPackage>
+  <div class="text-black mt-5 text-3xl raleway mb-5">Thêm gói dịch vụ mới mới</div>
+  <div class="bg-frm border border-black rounded-xl px-6 py-2 w-full lg:w-3/5">
+    <div class="detail-header">
+      <div class="flex items-center">
+        <div class="font-semibold text-xl mr-5 flex-1" *ngIf="namePackage === ''">Tên gói dịch vụ</div>
+        <div class="font-semibold text-xl mr-5 flex-1" *ngIf="namePackage !== ''"> {{ namePackage }} </div>
+        <button (click)="addServicePackage()" class="btn mr-5 bg-green-300 transition duration-500 ease-in-out hover:bg-green-400 hover:text-gray-50">Thêm gói dịch vụ</button>
+        <i (click)="exit()" nz-icon nzType="close-circle" nzTheme="outline" class="text-4xl cursor-pointer m-auto text-gray-400 hover:text-red-500"></i>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    <form nz-form [formGroup]="formAddPackage">
+      <div>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="maGoiDV">Mã gói dịch vụ</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Mã gói dịch vụ không được trống">
+            <input placeholder="Nhập mã gói dịch" nz-input formControlName="maGoiDV" id="maGoiDV">
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="tenGoiDV">Tên gói dịch vụ</nz-form-label>
+          <nz-form-control [nzSpan]="16" nzErrorTip="Tên khuyến mãi không được trống">
+            <input placeholder="Nhập tên gói dịch vụ" nz-input formControlName="tenGoiDV" id="tenGoiDV" [(ngModel)]="namePackage">
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="soDonHang">Số đơn hàng</nz-form-label>
+          <nz-form-control [nzSpan]="16" [nzErrorTip]="errorsoDonHang">
+            <input placeholder="Nhập số đơn hàng" nz-input formControlName="soDonHang" id="soDonHang">
+          </nz-form-control>
+          <ng-template #errorsoDonHang let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Trường nhập phải là số</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Trường nhập không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="khoiLuongHang">Khối lượng hàng</nz-form-label>
+          <nz-form-control [nzSpan]="16" [nzErrorTip]="errorkhoiLuongHang">
+            <input placeholder="Nhập khối lượng hàng" nz-input formControlName="khoiLuongHang" id="khoiLuongHang">
+          </nz-form-control>
+          <ng-template #errorkhoiLuongHang let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Trường nhập phải là số</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Trường nhập không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="cuocPhi">Cước phí</nz-form-label>
+          <nz-form-control [nzSpan]="16" [nzErrorTip]="errorcuocPhi">
+            <input placeholder="Nhập cước phí" nz-input formControlName="cuocPhi" id="cuocPhi">
+          </nz-form-control>
+          <ng-template #errorcuocPhi let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Trường nhập phải là số</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Trường nhập không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="8" class="text-center font-semibold" nFor="thoiGianSuDung">Thời gian sử dụng(ngày)</nz-form-label>
+          <nz-form-control [nzSpan]="16" [nzErrorTip]="errorthoiGianSuDung">
+            <input placeholder="Nhập thời gian sử dụng" nz-input formControlName="thoiGianSuDung" id="thoiGianSuDung">
+          </nz-form-control>
+          <ng-template #errorthoiGianSuDung let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Trường nhập phải là số</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Trường nhập không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,95 @@
+.btn-color{
+  color: #808080;
+}
+.btn-color:hover, .btn-color:focus{
+  color: black
+}
+
+.raleway{
+  font-family: Raleway;
+}
+
+.txt-tr{
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 15px;
+}
+
+.ok{
+  background: linear-gradient(180deg, #43FFDD 0%, rgba(67, 255, 221, 0) 100%);
+}
+
+
+.img-paypal{
+  max-width: 100px;
+}
+.img-vnpay{
+  max-width: 100px;
+}
+
+.img-step6{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.text-bottom{
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+}
+  .text-header-pay{
+    font-family: Raleway;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+  }
+  .text-body-pay{
+    font-family: Raleway;
+    font-size: 18px;
+    line-height: 29px;
+    margin-left: 30px;
+  }
+
+
+.frm-order-1{
+  background: rgba(254, 240, 255, 0.44);
+  box-sizing: border-box;
+}
+
+.gr{
+  display: flex;
+  justify-content: space-between;
+  .gr-btn{
+    font-family: Raleway;
+    font-style: normal;
+    font-size: 17px;
+    font-weight: bold;
+    color: #418E94;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .back{
+    visibility: hidden;
+    opacity: 0;
+  }
+  .img-next{
+    margin-left: 10px;
+    max-width: 20px;
+  }
+  .img-back{
+    transform: rotate(180deg);
+    margin-right: 10px;
+    max-width: 20px;
+  }
+}
+
+.infor-txt{
+  font-size: 1.25rem;
+  line-height: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}

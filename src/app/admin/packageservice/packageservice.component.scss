@@ -1,0 +1,35 @@
+.container{
+  position: relative;
+}
+.update{
+  background: #FFD8D8;
+  margin: 0 30px 0 0;
+}
+.delete{
+  background: #FF9494;
+  margin: 0 0 0 0;
+}
+.form-update{
+  text-align: left;
+  display: inline !important;
+}
+.input{
+  width: 60%;
+}
+.frmtxt{
+  margin: 0px 5px 14px 5px;
+  padding: 10px;
+}
+input{
+  border-radius: 12px;
+}
+.form{
+  display: flex;
+  justify-content: space-around;
+}
+.accept{
+  background: #B3FFC8;
+  position: absolute;
+  width: 20%;
+  right: 0;
+}

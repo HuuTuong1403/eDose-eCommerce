@@ -1,0 +1,57 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div class="container">
+  <div class="raleway font-normal text-3xl text-black mt-3 mb-3 text-center lg:text-left">Theo dõi tình hình kinh doanh</div>
+  <div class="w-full mb-4">
+    <div class="flex items-center justify-center lg:justify-start">
+      <div class="raleway font-normal text-lg mr-2">Tính theo</div>
+      <nz-select class="w-2/5 lg:w-1/5" [(ngModel)]="category" >
+        <nz-option nzValue="revenue" nzLabel="doanh thu"></nz-option>
+        <nz-option nzValue="sumOrder" nzLabel="tổng số lượng đơn hàng"></nz-option>
+      </nz-select>
+      <div class="raleway font-normal text-lg ml-2">qua các tháng</div>
+    </div>
+  </div>
+
+  <div *ngIf="category === 'revenue' && !active" class="animate__animated animate__fadeInRight">
+    <ng-contaier *ngTemplateOutlet="revenue"></ng-contaier>
+  </div>
+  <div *ngIf="category === 'sumOrder' && !active" class="animate__animated animate__fadeInLeft">
+    <ng-container *ngTemplateOutlet="sumOrder"></ng-container>
+  </div>
+</div>
+
+<ng-template #revenue>
+  <div class="content mx-auto">
+    <div class="chart ml-0">
+      <canvas baseChart
+        [datasets]="barChartDataDoanhThuThang"
+        [labels]="barChartLabelsDoanhThuThang"
+        [options]="barChartOptionsDoanhThuThang"
+        [colors]="barChartColorsDoanhThuThang"
+        [legend]="barChartLegendDoanhThuThang"
+        [chartType]="barChartTypeDoanhThuThang"
+        [plugins]="barChartPluginsDoanhThuThang">
+      </canvas>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #sumOrder>
+  <div class="content">
+    <div class="chart ml-0">
+      <canvas baseChart
+        [datasets]="barChartDataSumOrderThang"
+        [labels]="barChartLabelsSumOrderThang"
+        [options]="barChartOptionsSumOrderThang"
+        [colors]="barChartColorsSumOrderThang"
+        [legend]="barChartLegendSumOrderThang"
+        [chartType]="barChartTypeSumOrderThang"
+        [plugins]="barChartPluginsSumOrderThang">
+      </canvas>
+    </div>
+  </div>
+</ng-template>

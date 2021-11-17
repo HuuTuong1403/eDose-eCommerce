@@ -1,0 +1,21 @@
+<nz-skeleton [nzActive]='true' [nzLoading]="loading">
+<div class="container">
+  <div class="title-text-admin">Hoạch toán, đối soát doanh nghiệp</div>
+  <div class="table">
+    <nz-table #basicTable nzBordered [nzData]="company">
+      <thead>
+        <tr>
+          <th>Tên doanh nghiệp</th>
+          <th>Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of company">
+        <tr *ngIf="item.tinhTrang === 'Approval'">
+          <td>{{ item.tenDN }}</td>
+          <td><a class="table-buttonDetail" [routerLink]="['/admin/dashboard/reconcile/', item._id]">Chi tiết</a></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+</nz-skeleton>

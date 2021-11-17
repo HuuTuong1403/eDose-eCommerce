@@ -1,0 +1,393 @@
+<div class="container">
+  <div class="text-black mt-4 text-3xl text-center md:text-left raleway">Các đơn hàng hiện tại</div>
+  <div *ngIf="active; else notActive">
+    <ng-container>
+      <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+    </ng-container>
+  </div>
+
+  <ng-template #notActive>
+    <div class="tbl mt-14 lg:mt-8 ml-5 lg:ml-9 md:ml-20 w-11/12 md:w-3/4 pb-2">
+      <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+        <div class="grid grid-cols-4 gap-4 items-center">
+          <div>Tên đơn hàng</div>
+          <div>Trạng thái</div>
+          <div>Tên người dùng</div>
+          <div>Chi tiết đơn hàng</div>
+        </div>
+      </nz-card>
+      <div *ngIf="choose == 'Chưa tiếp nhận'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="ChuaTiepNhan"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Đã tiếp nhận'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="DaTiepNhan"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Đang lấy hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="DangLayHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Đã lấy hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="DaLayHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Không lấy được hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="KhongLayDuocHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Đang giao hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="DangGiaoHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Đã giao hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="DaGiaoHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Không giao được hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="KhongGiaoDuocHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Trả hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="TraHang"></ng-container>
+      </div>
+      <div *ngIf="choose == 'Hoàn tất đơn hàng'" class="animate__animated animate__fadeInUpBig">
+        <ng-container *ngTemplateOutlet="HoanTatDonHang"></ng-container>
+      </div>
+
+      <ng-template #ChuaTiepNhan>
+        <div class="mb-4" *ngIf="listChuaTiepNhan.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listChuaTiepNhan | paginate: { itemsPerPage: 5, currentPage: pChuaTiepNhan, id: 'ChuaTiepNhan' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">Chưa thanh toán</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Thanh toán</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pChuaTiepNhan = $event" id="ChuaTiepNhan"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #DaTiepNhan>
+        <div *ngIf="listDaTiepNhan.length != 0; else noOrder ">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listDaTiepNhan | paginate: { itemsPerPage: 5, currentPage: pDaTiepNhan, id:'DaTiepNhan' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pDaTiepNhan = $event" id="DaTiepNhan"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #DangLayHang>
+        <div *ngIf="listDangLayHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listDangLayHang | paginate: { itemsPerPage: 5, currentPage: pDangLayHang, id: 'DangLayHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pDangLayHang = $event" id="DangLayHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #DaLayHang>
+        <div *ngIf="listDaLayHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listDaLayHang | paginate: { itemsPerPage: 5, currentPage: pDaLayHang, id: 'DaLayHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pDaLayHang = $event" id="DaLayHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #KhongLayDuocHang>
+        <div *ngIf="listKhongLayDuocHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listKhongLayDuocHang | paginate: { itemsPerPage: 5, currentPage: pKhongLayDuocHang, id: 'KhongLayDuocHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pKhongLayDuocHang = $event" id="KhongLayDuocHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #DangGiaoHang>
+        <div *ngIf="listDangGiaoHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listDangGiaoHang | paginate: { itemsPerPage: 5, currentPage: pDangGiaoHang, id: 'DangGiaoHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pDangGiaoHang = $event" id="DangGiaoHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #DaGiaoHang>
+        <div *ngIf="listDaGiaoHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listDaGiaoHang | paginate: { itemsPerPage: 5, currentPage: pDaGiaoHang, id: 'DaGiaoHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pDaGiaoHang = $event" id="DaGiaoHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #KhongGiaoDuocHang>
+        <div *ngIf="listKhongGiaoDuocHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listKhongGiaoDuocHang | paginate: { itemsPerPage: 5, currentPage: pKhongGiaoDuocHang, id: 'KhongGiaoDuocHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pKhongGiaoDuocHang = $event" id="KhongGiaoDuocHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #TraHang>
+        <div *ngIf="listTraHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listTraHang | paginate: { itemsPerPage: 5, currentPage: pTraHang, id: 'TraHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pTraHang = $event" id="TraHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #HoanTatDonHang>
+        <div *ngIf="listHoanTatDonHang.length != 0; else noOrder">
+          <div class="animate__animated animate__fadeInRight" *ngFor="let item of listHoanTatDonHang | paginate: { itemsPerPage: 5, currentPage: pHoanTatDonHang, id:'HoanTatDonHang' }">
+            <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+              <div class="grid grid-cols-4 gap-4 items-center">
+                <div>{{ item.tenHangHoa }}</div>
+                <div class="font-semibold">{{ item.donHang.trangThai }}</div>
+                <div>{{ item.donHang.khachHang.tenDangNhap }}</div>
+                <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+              </div>
+            </nz-card>
+          </div>
+          <pagination-controls class="text-center" (pageChange)="pHoanTatDonHang = $event" id="HoanTatDonHang"
+                              directionLinks="true"
+                              autoHide="true"
+                              responsive="true"
+                              previousLabel="Trang trước"
+                              nextLabel="Trang sau"></pagination-controls>
+        </div>
+      </ng-template>
+
+      <ng-template #noOrder>
+        <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+          <div class="text-center font-medium text-lg uppercase mb-3">Không có đơn hàng ở trạng thái hiện tại</div>
+          <div class="text-center">
+            <img class="w-2/5" src="https://res.cloudinary.com/university-of-education-technology/image/upload/v1623007627/avatar-eatclean/ddyxcyfzmk8vy3kcp6qx.png" alt="NO DATA FOUND">
+          </div>
+        </nz-card>
+      </ng-template>
+    </div>
+
+    <nz-modal [nzWidth]="750" [(nzVisible)]="isVisibleDetail" *ngIf="orderDetail" [nzFooter]="null" (nzOnCancel)="cancelDetail()">
+      <div class="detail-container">
+        <div class="detail-header">
+          <div class="header-top">Chi tiết</div>
+          <div class="header-bottom">
+            <div class="txt-name">{{ orderDetail.tenHangHoa }}</div>
+            <div *ngIf="orderDetail.donHang.trangThai == 'unpaid'; else unpaid">
+              <div class="flex items-center">
+                <div class="text-base font-medium mr-2">Bạn vui lòng thanh toán đơn hàng</div>
+                <div>
+                  <button (click)="cancelOrders(orderDetail.donHang._id)" class="mr-3 border border-gray-400 px-5 py-1 rounded-xl bg-red-100 transition duration-500 ease-in-out font-medium hover:bg-red-400 hover:text-white">Hủy đơn hàng</button>
+                  <button (click)="onClickPayment()" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Thanh toán</button>
+                </div>
+              </div>
+              <nz-modal [nzWidth]="750" [(nzVisible)]="isVisibleChoosePayment" [nzFooter]="null" (nzOnCancel)="cancelChoosePayment()" nzCentered>
+                <div class="">
+                  <div class="text-2xl font-medium text-center mt-5 uppercase">Chọn phương thức thanh toán</div>
+                  <nz-divider></nz-divider>
+                  <div class="text-lg font-medium my-3 mx-5">Mời bạn chọn phương thức thanh toán để thanh toán gói dịch vụ còn đang nợ:</div>
+                  <form nz-form [formGroup]="choosePayment">
+                    <nz-form-item>
+                      <nz-form-control class="text-center" nzErrorTip="Hãy chọn phương thức thanh toán">
+                        <nz-radio-group formControlName="payment">
+                          <label class="w-full mb-3" nz-radio nzValue="PayPal"><span class="ml-5 font-semibold text-lg raleway">Thanh toán thông qua <img src="../../../../assets/images/paypal.png" class="img-paypal ml-1"></span></label>
+                          <label class="w-full" nz-radio nzValue="VNPay"><span class="ml-5 font-semibold text-lg raleway">Thanh toán thông qua <img src="https://res.cloudinary.com/university-of-education-technology/image/upload/v1623995602/logo-business/rc6mwoyt4ybwe5rnlgyy.png" class="img-vnpay ml-1"></span></label>
+                        </nz-radio-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </form>
+                  <div class="flex justify-center mb-5">
+                    <button (click)="cancelChoosePayment()" class="mr-5 btn bg-red-300  transition duration-500 ease-in-out hover:bg-red-400 hover:text-white">Hủy thanh toán</button>
+                    <button (click)="createPayment(orderDetail.donHang._id, orderDetail._id, orderDetail.tenHangHoa, orderDetail.donHang.tongTien)" class="btn bg-green-300 transition duration-500 ease-in-out hover:bg-green-400 hover:text-white">Xác nhận và thanh toán</button>
+                  </div>
+                </div>
+              </nz-modal>
+            </div>
+            <ng-template #unpaid>
+              <div class="txt-tr">Tình trạng:</div>
+              <div class="txt-tr tinhtrang">Doanh nghiệp giao hàng <span class="lowercase font-semibold">{{ singleValue }}</span></div>
+            </ng-template>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <div class="flex justify-between px-3 w-full">
+          <div class="w-1/2">
+            <div class="text-header">Mã đơn hàng</div>
+            <div class="text-body">{{ orderDetail.donHang._id }}</div>
+            <div class="text-header">Tên đơn hàng</div>
+            <div class="text-body">{{ orderDetail.tenHangHoa }}</div>
+            <div class="text-header">Giá trị hàng hóa</div>
+            <div class="text-body">{{ orderDetail.giaTriGoiHang | currency:"VND" }}</div>
+            <div class="text-header">Khối lượng hàng hóa</div>
+            <div class="text-body">{{ orderDetail.khoiLuong }}g</div>
+            <div class="text-header">Chiều dài hàng hóa</div>
+            <div class="text-body">{{ orderDetail.chieuDai }}cm</div>
+            <div class="text-header">Chiều cao hàng hóa</div>
+            <div class="text-body">{{ orderDetail.chieuCao }}cm</div>
+            <div class="text-header">Chiều rộng hàng hóa</div>
+            <div class="text-body">{{ orderDetail.chieuRong }}cm</div>
+            <div class="text-header">Ngày đặt hàng</div>
+            <div class="text-body">Ngày {{ orderDetail.donHang.ngayDatHang | date:'dd/MM/yyyy'}}</div>
+          </div>
+          <div class="w-1/2">
+            <div class="text-header text-red-400" *ngIf="orderDetail.donHang.trangThai == 'unpaid'; else isHeadPaid">Tổng tiền chưa thanh toán</div>
+            <div class="text-body text-red-400" *ngIf="orderDetail.donHang.trangThai == 'unpaid'; else isBodyPaid">{{ orderDetail.donHang.tongTien | currency:'VND' }}</div>
+            <ng-template #isHeadPaid>
+              <div class="text-header text-green-400">Tổng tiền đã thanh toán</div>
+            </ng-template>
+            <ng-template #isBodyPaid>
+              <div class="text-body text-green-400">{{ orderDetail.donHang.tongTien | currency:'VND' }}</div>
+            </ng-template>
+            <div class="text-header">Doanh nghiệp giao hàng</div>
+            <div class="text-body font-semibold">{{ orderDetail.donHang.doanhNghiepGiaoHang.tenDN }}</div>
+            <div class="text-header">Địa chỉ người gửi</div>
+            <div class="text-body">{{ orderDetail.donHang.diaChiLayHang }}, Thành phố Hồ Chí Minh</div>
+            <div class="text-header">Địa chỉ người nhận</div>
+            <div class="text-body">{{ orderDetail.donHang.diaChiGiaoHang }}, Thành phố Hồ Chí Minh</div>
+            <div class="text-header">Số điện thoại người đặt hàng</div>
+            <div class="text-body">{{ orderDetail.donHang.soDT }}</div>
+            <div class="text-header">Họ tên người đặt hàng</div>
+            <div class="text-body">{{ orderDetail.donHang.khachHang.hoVaTen }}</div>
+            <div class="text-header">Email người đặt hàng</div>
+            <div class="text-body">{{ orderDetail.donHang.khachHang.email }}</div>
+          </div>
+        </div>
+      </div>
+    </nz-modal>
+
+    <i title="Danh mục trạng thái đơn hàng" (clickOutside)="onClickedOutside($event)" nz-icon nzType="menu-unfold" nzTheme="outline" class="px-2 py-1 rounded-tl-lg rounded-bl-lg absolute transition duration-500 ease-in-out top-8 right-0 text-2xl cursor-pointer bg-gray-200 hover:bg-gray-600 hover:text-white" (click)="collapse = false"></i>
+    <div class="invisible opacity-0 absolute top-0 right-0 menu-right border border-black px-5 py-3" [ngClass]="!collapse ? 'visible opacity-100' : 'invisible opacity-0'">
+        <ul  nz-menu class="sider-menu">
+          <li nz-menu-item [nzSelected]="singleValue === 'Chưa tiếp nhận'" (click)="clickToChange('Chưa tiếp nhận')">Chưa tiếp nhận
+            <nz-badge [nzCount]="listChuaTiepNhan.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Đã tiếp nhận'" (click)="clickToChange('Đã tiếp nhận')">Đã tiếp nhận
+            <nz-badge [nzCount]="listDaTiepNhan.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Đang lấy hàng'" (click)="clickToChange('Đang lấy hàng')">Đang lấy hàng
+            <nz-badge [nzCount]="listDangLayHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Đã lấy hàng'" (click)="clickToChange('Đã lấy hàng')">Đã lấy hàng
+            <nz-badge [nzCount]="listDaLayHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Không lấy được hàng'" (click)="clickToChange('Không lấy được hàng')">Không lấy được hàng
+            <nz-badge [nzCount]="listKhongLayDuocHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Đang giao hàng'" (click)="clickToChange('Đang giao hàng')">Đang giao hàng
+            <nz-badge [nzCount]="listDangGiaoHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Đã giao hàng'" (click)="clickToChange('Đã giao hàng')">Đã giao hàng
+            <nz-badge [nzCount]="listDaGiaoHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Không giao được hàng'" (click)="clickToChange('Không giao được hàng')">Không giao được hàng
+            <nz-badge [nzCount]="listKhongGiaoDuocHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Trả hàng'" (click)="clickToChange('Trả hàng')">Trả hàng
+            <nz-badge [nzCount]="listTraHang.length"></nz-badge>
+          </li>
+          <li nz-menu-item [nzSelected]="singleValue === 'Hoàn tất đơn hàng'" (click)="clickToChange('Hoàn tất đơn hàng')">Hoàn tất đơn hàng
+            <nz-badge [nzCount]="listHoanTatDonHang.length"></nz-badge>
+          </li>
+        </ul>
+    </div>
+</ng-template>

@@ -1,0 +1,55 @@
+<nz-skeleton [nzActive]="true" [nzLoading]='loading'>
+  <div class="container">
+    <div class="title-text-admin">Theo dõi tình hình kinh doanh</div>
+      <div>
+        <nz-tabset [nzTabPosition]='position' class="tabs">
+          <nz-tab nzTitle="Biểu đồ">
+            <div class="chart">
+              <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+              </canvas>
+            </div>
+          </nz-tab>
+          <nz-tab nzTitle="Bảng báo cáo">
+            <div class="tbl">
+              <nz-tabset class="" [nzTabPosition]='position'>
+                <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name" (nzClick)="onClick(tab.name)">
+                  <nz-table #basicTable nzBordered [nzData]="dataMonth">
+                    <thead>
+                      <tr>
+                        <th>Mã gói DV</th>
+                        <th>Tên gói DV</th>
+                        <th>Tên doanh nghiệp</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Thời gian</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of dataMonth">
+                        <td>{{ item.goiDichVu.maGoiDV }}</td>
+                        <td>{{ item.goiDichVu.tenGoiDV }}</td>
+                        <td>{{ item.tenDN }}</td>
+                        <td>{{ item.goiDichVu.cuocPhi | currency:'VND' }}</td>
+                        <td>{{ item.goiDichVu.totalCost / item.goiDichVu.cuocPhi }}</td>
+                        <td>{{ item.goiDichVu.totalCost | currency:'VND' }}</td>
+                        <td>{{ item.goiDichVu.ngayDangKy | date:'dd/MM/yyyy' }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-tab>
+              </nz-tabset>
+              <div class="choose">Chọn tháng</div>
+            </div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </div>
+</nz-skeleton>

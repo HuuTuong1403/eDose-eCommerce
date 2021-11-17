@@ -1,0 +1,92 @@
+.active{
+  background: #FF6BC4 !important;
+}
+
+.tk{
+  margin-right: 30px;
+}
+.top{
+  display: flex;
+  align-items: center;
+}
+.right{
+  width: 60%;
+}
+.right-statistic{
+  display: flex;
+  align-items: center;
+}
+.txt-statistic{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+}
+.btn1{
+  color: #FFFFFF;
+  background: #C4C4C4;
+}
+.btn1:hover{
+  background: #FF6BC4;
+}
+.btnm{
+  margin-left: 20px;
+  margin-right: 20px
+}
+
+.content{
+  position: absolute;
+  z-index: 1000;
+}
+.chart{
+  min-width: 800px;
+  margin: 20px 0 0 20px;
+}
+
+.right-afflix-statistic{
+  z-index: 1000;
+  position: absolute;
+  right: 0;
+  top: 30%;
+  background: #FFFBFE;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 27px 27px 27px 27px;
+  padding: 20px 25px 25px 20px;
+  .sider-menu{
+    background-color: transparent !important;
+    .ant-menu-item{
+      position: relative;
+    }
+    .ant-menu-item:after{
+      content: '';
+      position: absolute;
+      left: auto;
+      right: 0;
+      height: 2px;
+      width: 0;
+      background-color: #FE0098;
+      transition: width 0.25s linear;
+    }
+    .ant-menu-item:hover:after{
+      width: 100%;
+      left: 0;
+      right: auto;
+    }
+  }
+  .ant-menu-item-selected {
+    color: #FE0098 !important;
+    background-color: transparent !important;
+  }
+  .ant-menu-vertical{
+    border-right: none !important;
+  }
+  .ant-menu{
+    background-color: transparent !important;
+  }
+}
+
+.chart-huy{
+  min-width: 800px;
+  padding: 30px 40px 0 40px;
+}

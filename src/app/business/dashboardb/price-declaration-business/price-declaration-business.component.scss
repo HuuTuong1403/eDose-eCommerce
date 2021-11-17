@@ -1,0 +1,21 @@
+.active{
+  background: #FF6BC4 !important;
+}
+.btn1{
+  color: #FFFFFF;
+  background: #C4C4C4;
+}
+.btn1:hover{
+  background: #FF6BC4
+}
+input{
+  border-radius: 20px;
+}
+.container{
+  position: absolute;
+  z-index: 1000;
+}
+
+.baogia{
+  background: linear-gradient(180deg, rgba(255, 53, 211, 0.73) 0%, rgba(255, 107, 196, 0.32) 95.83%);
+}

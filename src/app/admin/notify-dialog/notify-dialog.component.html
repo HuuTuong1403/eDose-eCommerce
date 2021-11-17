@@ -1,0 +1,8 @@
+<div class="notify" >
+  <div mat-dialog-title class="notify-header">Thông báo</div>
+  <div mat-dialog-content class="notify-content">Bạn có chắc {{ data.notify }} này?</div>
+  <div mat-dialog-actions class="notify-footer">
+    <button class="btn btn-decline" (click)="onNoClick()">Hủy</button>
+    <button class="btn btn-accept" (click)="createNotify()" [style.color]="data.notify == 'từ chối' ? '#E70000' : '#00AC11'">Xác nhận</button>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+.container{
+  position: absolute;
+  z-index: 1000;
+  margin-top: 20px;
+}
+.txt-title{
+  position: relative;
+}
+.txt-title:after{
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 4px;
+  left: 40%;
+  bottom: -6px;
+  background-color: #61C0C7;
+}
+
+.stp-ctn{
+  display: flex;
+  justify-content: center;
+  .stp-cnt{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    align-items: center;
+  }
+  .stp-txt{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    color: #000000;
+    margin-right: 13px;
+    margin-left: 13px;
+  }
+  .stp-a{
+    position: relative;
+  }
+  .stp-a:after{
+    content: '';
+    position: absolute;
+    background-color: black;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+  }
+  .active{
+    color: #FE0098;
+  }
+  .active:after{
+    background-color: #FE0098;
+  }
+  .stp-icn{
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+.show{
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s linear all;
+}
+.hide{
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s linear all;
+}
+
+nz-form-label{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  text-align: left;
+}
+
+input{
+  border-radius: 12px;
+}
+
+@media only screen and (min-width: 500px) {
+  .txt-title:after{
+    left: 28%;
+    width: 216px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .txt-title:after{
+    width: 220px;
+    left: 36%;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .txt-title:after{
+    width: 220px;
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  .txt-title:after{
+    width: 220px;
+    left: 40%;
+  }
+}

@@ -1,0 +1,67 @@
+<div class="relative">
+  <div class="text-black mt-5 text-3xl text-center md:text-left raleway">Hoạch toán, đối soát doanh nghiệp</div>
+  <div class="content">
+    <div class="flex w-full justify-between mt-14 lg:my-5">
+      <form class="flex justify-between w-3/4 lg:w-1/2" nz-form [formGroup]="formDate">
+        <nz-form-item class="w-1/2">
+          <nz-form-control nzErrorTip="Vui lòng chọn ngày bắt đầu">
+            <nz-date-picker (nzOnOpenChange)="handleStartOpenChange($event)" [nzDisabledDate]="disabledStartDate" [(ngModel)]="startValue" class="rounded-xl cursor-pointer w-10/12 text-base" nzPlaceHolder="Chọn ngày bắt đầu" nzFormat="dd/MM/yyyy" formControlName='ngayBD' id="ngayBD" ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="w-1/2">
+          <nz-form-control nzErrorTip="Vui lòng chọn ngày kết thúc">
+            <nz-date-picker (nzOnOpenChange)="handleEndOpenChange($event)" #endDatePicker [(ngModel)]="endValue" [nzDisabledDate]="disabledEndDate" class="rounded-xl cursor-pointer w-10/12 text-base" nzPlaceHolder="Chọn ngày kết thúc" nzFormat="dd/MM/yyyy" formControlName='ngayKT' id="ngayKT" ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+      <button class="btn accept lg:mr-5 transition duration-500 ease-in-out" (click)="onClickAccept()">Xác nhận</button>
+    </div>
+    <div class="relative">
+      <div *ngIf="active">
+        <ng-container>
+          <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+        </ng-container>
+      </div>
+      <div *ngIf="hasData && !active" class="animate__animated animate__fadeInRight">
+        <div class="lg:flex lg:justify-center mb-5" >
+          <div class="w-full lg:w-2/5 border border-gray-400 rounded-xl mr-5 mb-5 lg:mb-0">
+            <div *ngIf="business" class="text-center border-b border-gray-400 py-3 rounded-tl-xl rounded-tr-xl font-medium bg-gray-200">{{ business.tenDN }}</div>
+            <div class="flex justify-between text-center py-3" *ngIf="businessReconciling">
+              <div class="w-1/2 border-r border-gray-400">
+                <div class="mb-3 font-medium text-base">Tiền thu được</div>
+                <div class="mb-3 font-medium text-base">Tổng đơn hàng</div>
+                <div class="mb-3 font-medium text-base">Tổng tiền</div>
+              </div>
+              <div class="w-1/2">
+                <div class="mb-3 font-medium text-base">{{ businessReconciling.tienThuDuoc | currency:'VND' }}</div>
+                <div class="mb-3 font-medium text-base">{{ businessReconciling.tongHoaDon  }} đơn</div>
+                <div class="mb-3 font-medium text-base">{{ businessReconciling.tongTien | currency:'VND' }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full lg:w-2/5 border border-gray-400 rounded-xl mr-5" *ngIf="businessEDose">
+            <div class="text-center border-b border-gray-400 py-3 rounded-tl-xl rounded-tr-xl font-medium bg-gray-200">eDose DeliveryHub</div>
+            <div class="flex justify-between text-center py-3">
+              <div class="w-1/2 border-r border-gray-400">
+                <div class="mb-3 font-medium text-base">Tiền thu được</div>
+                <div class="mb-3 font-medium text-base">Tổng đơn hàng</div>
+                <div class="mb-3 font-medium text-base">Tổng tiền</div>
+              </div>
+              <div class="w-1/2">
+                <div class="mb-3 font-medium text-base">{{ businessEDose.tienThuDuoc | currency:'VND' }}</div>
+                <div class="mb-3 font-medium text-base">{{ businessEDose.tongHoaDon }} đơn</div>
+                <div class="mb-3 font-medium text-base">{{ businessEDose.tongTien | currency:'VND' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button (click)="checkBackReconciliation()" class="btn check-back text-red-500 hover:text-red-800 first:mr-5 transition duration-500 ease-in-out">Cần đối soát lại</button>
+          <button (click)="acceptReconciliation()" class="btn cross-check text-blue-500 hover:text-blue-800 mr-5 transition duration-500 ease-in-out">Tiến hành đối soát</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

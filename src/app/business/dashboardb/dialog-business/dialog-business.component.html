@@ -1,0 +1,10 @@
+<div class="notify" >
+  <div mat-dialog-title class="notify-header">Thông báo</div>
+  <div mat-dialog-content class="notify-content">Bạn có chắc {{ data.notify }} này?</div>
+  <div mat-dialog-actions class="notify-footer">
+    <button class="btn btn-decline" (click)="onNoClick()">Hủy</button>
+    <button *ngIf="data.notify === 'đăng ký gói dịch vụ'" class="btn btn-accept" (click)="onAccept()" >Xác nhận và thanh toán</button>
+    <button *ngIf="data.notify === 'xóa khuyến mãi'" class="btn btn-danger" (click)="onAccept()">Xác nhận</button>
+    <button *ngIf="data.notify === 'huỷ gói dịch vụ đang đăng ký'" class="btn btn-danger" (click)="onAccept()">Xác nhận</button>
+  </div>
+</div>

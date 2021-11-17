@@ -1,0 +1,33 @@
+<nz-layout class="layout">
+  <nz-header class="header">
+    <nz-space>
+      <button class="header-button-menu" nz-button><img src="../../../assets/images/button-menu.png"></button>
+      <div class="heaeder-logo-eDose">
+        <img src="../../../assets/images/logoCompany.png"  style="cursor: pointer;" alt="eDose" routerLink="/home">
+      </div>
+      <div class="header-logo-company">
+        <img src="../../../assets/images/Company.png" alt="" style="cursor: pointer;" routerLink="/home">
+      </div>
+      <div class="header-right">
+        <div class="header-right-text">Trang của Quản trị</div>
+        <button class="header-right-button transition duration-500 text-black ease-in-out box-border px-2 py-0 md:px-4 md:py-1 font-medium text-sm md:text-base rounded-md source-sans-pro hover:text-white hover:font-semibold" (click)="logOut()" title="Đăng xuất">Đăng xuất</button>
+      </div>
+    </nz-space>
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzWidth="255px" nzTheme="light" class="slider" nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
+      <ul nz-menu nzMode="inline" class="sider-menu">
+        <li nz-menu-item [nzSelected]="this.isSelected('/approval')" routerLink="/admin/dashboard/approval" title="Phê duyệt tài khoản doanh nghiệp">Phê duyệt tài khoản doanh nghiệp</li>
+        <li nz-menu-item [nzSelected]="this.isSelected('/usermanager')" routerLink="/admin/dashboard/usermanager" title="Quản lý danh sách khách hàng">Quản lý danh sách khách hàng</li>
+        <li nz-menu-item [nzSelected]="this.isSelected('/packageservice')"  routerLink="/admin/dashboard/packageservice" title="Quản lý gói dịch vụ">Quản lý gói dịch vụ</li>
+        <li nz-menu-item [nzSelected]="this.isSelected('/reconcile')" [routerLink]="'/admin/dashboard/reconcile'" title="Hạch toán đối soát doanh nghiệp">Hạch toán đối soát doanh nghiệp</li>
+        <li nz-menu-item [nzSelected]="this.isSelected('/business-situation')" routerLink="/admin/dashboard/business-situation" title="Theo dõi tình hình kinh doanh">Theo dõi tình hình kinh doanh</li>
+      </ul>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-content>
+        <router-outlet></router-outlet>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

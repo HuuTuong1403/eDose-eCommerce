@@ -1,0 +1,199 @@
+<nz-layout class="bg-white w-full h-full relative">
+  <div class="header w-full relative">
+    <div class="flex items-center justify-center">
+      <img src="../../../assets/images/logo-header.png" alt="Logo eDose" class="cursor-pointer w-1/6 md:w-1/12" routerLink="/home">
+      <img src="../../../assets/images/name-header.png" alt="Company" class="cursor-pointer mt-auto w-1/6 md:w-1/12" routerLink="/home">
+    </div>
+    <div class="absolute bottom-0 right-0 md:bottom-2 md:right-14">
+      <div class="text-right mb-0 md:mb-2 mr-6 md:mr-0">
+        <a class="btn-1 transition duration-500 text-black ease-in-out box-border px-2 py-0 md:px-4 md:py-1 font-medium text-sm md:text-base rounded-md source-sans-pro hover:text-white hover:font-semibold" (click)="logOut()" title="Đăng xuất">ĐĂNG XUẤT</a>
+      </div>
+      <div>
+        <a class="raleway font-medium text-sm md:text-xl text-gray-700 hover:text-yellow-400 mr-0" routerLink="/business/dashboard" title="Quay lại trang chức năng"><i class="invisible opacity-0 md:visible md:opacity-100 mr-2" nz-icon nzType="arrow-left" nzTheme="outline"></i>Quay lại trang chức năng</a>
+      </div>
+    </div>
+  </div>
+  <nz-layout class="bg-white w-full">
+    <div *ngIf="active">
+      <ng-container>
+        <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+      </ng-container>
+    </div>
+    <div *ngIf="!active">
+      <div class="lg:flex w-full ">
+        <div class="relative w-11/12 lg:w-2/5 ml-8 lg:ml-0" *ngIf="business">
+          <img src="../../../../assets/images/backgrouddetailbusiness.png" alt="Detail Background" class="img opacity-0 invisible lg:opacity-100 lg:visible">
+          <div class="lg:absolute lg:top-7 lg:left-0 lg:w-1/2 w-full">
+            <div class="text-center text-xl ssp font-semibold mb-4">Thông tin doanh nghiệp</div>
+            <div class="ssp lg:ml-10 w-full">
+              <div class="txt-title">Tên doanh nghiệp</div>
+              <div class="txt-content">{{ business.tenDN }}</div>
+              <div class="txt-title">Địa chỉ</div>
+              <div class="txt-content">{{ business.diaChi }}</div>
+              <div class="txt-title">Người đại diện</div>
+              <div class="txt-content">{{ business.nguoiDD }}</div>
+              <div class="txt-title">Chức vụ người đại diện</div>
+              <div class="txt-content">{{ business.chucVu }}</div>
+              <div class="txt-title">Mã số thuế</div>
+              <div class="txt-content">{{ business.maSoThue }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2">
+          <div *ngIf="choose === 'default'">
+            <ng-container *ngTemplateOutlet="default"></ng-container>
+          </div>
+
+          <div *ngIf="choose === 'updateInfor'">
+            <ng-container *ngTemplateOutlet="updateInfor"></ng-container>
+          </div>
+
+          <div *ngIf="choose === 'changePass'">
+            <ng-container *ngTemplateOutlet="changePass"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-layout>
+  <img src="../../../assets/images/bg1.png" alt="" class="z-0 absolute bottom-0 invisible opacity-0 xl:visible xl:opacity-100">
+  <img src="../../../assets/images/bg2.png" alt="" class="z-0 absolute bottom-0 invisible opacity-0 xl:visible xl:opacity-100 right-0 w-1/2 max-h-full">
+</nz-layout>
+
+<ng-template #default>
+  <div class="absolute z-50 w-full lg:w-1/2 mt-5 lg:mt-10 animate__animated animate__fadeInLeft" *ngIf="business">
+    <div class="text-xl ssp font-semibold mb-4 text-center lg:text-left">Thông tin cá nhân</div>
+    <div class="ssp ml-20 lg:ml-14 mb-5">
+      <div class="txt-title">Tên đăng nhập</div>
+      <div class="txt-content">{{ business.userName }}</div>
+      <div class="txt-title">Số điện thoại</div>
+      <div class="txt-content">{{ business.soDT }}</div>
+      <div class="txt-title">Email</div>
+      <div class="txt-content">{{ business.email }}</div>
+    </div>
+    <div class="flex justify-center lg:justify-start mb-5 lg:mb-0 w-full md:w-10/12">
+      <button (click)="choose = 'changePass'" class="px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn1 rounded-lg mr-5">Đổi mật khẩu</button>
+      <button (click)="clickToUpdate()" class="px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn2 rounded-lg">Chỉnh sửa thông tin</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updateInfor>
+  <div class="absolute z-50 w-full lg:w-1/2 mt-5 lg:mt-10 animate__animated animate__fadeInRight" *ngIf="business">
+    <div class="text-xl ssp font-semibold mb-4 text-center lg:text-left">Chỉnh sửa thông tin</div>
+    <div class="ssp ml-10 lg:ml-14 mb-5">
+      <form nz-form [formGroup]="formUpdate" (ngSubmit)="this.updateBusiness()">
+
+        <div class="txt-title">Tên đăng nhập</div>
+        <nz-form-item class="ml-0 md:ml-7 mt-2">
+          <nz-form-control>
+            <input class="rounded-xl w-11/12 md:w-7/12 text-base bg-gray-400" nz-input formControlName="userName" readonly id="userName">
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="txt-title">Số điện thoại</div>
+        <nz-form-item class="ml-0 md:ml-7 mt-2">
+          <nz-form-control [nzErrorTip]="errorPhone">
+            <input placeholder="Nhập số điện thoại" class="rounded-xl w-11/12 md:w-7/12 text-base" nz-input formControlName="soDT" id="soDT">
+          </nz-form-control>
+          <ng-template #errorPhone let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Trường nhập phải là số</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Số điện thoại không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <div class="txt-title">Email</div>
+        <nz-form-item class="ml-0 md:ml-7 mt-2">
+          <nz-form-control [nzErrorTip]="emailErrorTpl">
+            <input placeholder="Nhập email" class="rounded-xl  w-11/12 md:w-7/12 text-base" nz-input formControlName="email" id="email">
+          </nz-form-control>
+          <ng-template #emailErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('email')">
+              <div>Email không đúng định dạng!</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Email không được trống</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+        <div class="flex justify-center lg:justify-start mb-5 lg:mb-0 w-full md:w-10/12">
+          <button (click)="choose = 'default'" class="flex-1 px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn1 rounded-lg mr-5">Quay lại</button>
+          <button type="submit" class="flex-1 px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn2 rounded-lg mr-5">Chỉnh sửa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #changePass>
+  <div class="absolute z-50 w-full lg:w-1/2 mt-5 lg:mt-10 animate__animated animate__fadeInLeft">
+    <div class="text-xl ssp font-semibold mb-4 text-center lg:text-left">Đổi mật khẩu</div>
+    <div class="ssp ml-10 lg:ml-14 mb-5 mr-5 lg:mr-0">
+      <form nz-form [formGroup]="formChangePass" (ngSubmit)="this.onChangePass()">
+
+        <div class="txt-title">Mật khẩu cũ</div>
+        <nz-form-item class="ml-7 mt-2">
+          <nz-form-control [nzErrorTip]="erroldpassword">
+            <input nz-input [type]="oldpasswordVisible ? 'text' : 'password'" placeholder="Nhập mật khẩu cũ" formControlName="oldPassword" id="oldPassword" class="rounded-xl w-full md:w-7/12">
+            <i nz-icon class="cursor-pointer absolute md:right-64 right-2 top-3" [nzType]="oldpasswordVisible? 'eye-invisible' : 'eye'" (click)="oldpasswordVisible = !oldpasswordVisible"></i>
+          </nz-form-control>
+          <ng-template #erroldpassword let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Mật khẩu cũ không được trống</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">
+              <div>Mật khẩu cũ phải có 8 kí tự</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Mật khẩu cũ phải có chữ hoa, chữ thường, số và kí tự đặc biệt</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <div class="txt-title">Mật khẩu mới</div>
+        <nz-form-item class="ml-7 mt-2">
+          <nz-form-control [nzErrorTip]="errnewpassword">
+            <input nz-input [type]="newpasswordVisible ? 'text' : 'password'" placeholder="Nhập mật khẩu mới" formControlName="newPassword" id="newPassword" class="rounded-xl w-full md:w-7/12">
+              <i nz-icon class="cursor-pointer absolute md:right-64 right-2 top-3" [nzType]="newpasswordVisible? 'eye-invisible' : 'eye'" (click)="newpasswordVisible = !newpasswordVisible"></i>
+          </nz-form-control>
+          <ng-template #errnewpassword let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Mật khẩu mới không được trống</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">
+              <div>Mật khẩu mới phải có 8 kí tự</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <div>Mật khẩu mới phải có chữ hoa, chữ thường, số và kí tự đặc biệt</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <div class="txt-title">Nhập lại mật khẩu</div>
+        <nz-form-item class="ml-7 mt-2">
+          <nz-form-control [nzErrorTip]="errorRePass">
+            <input nz-input class="rounded-xl w-full md:w-7/12" [type]="rePasswordVisible ? 'text' : 'password'" placeholder="Nhập lại mật khẩu mới" formControlName="newPasswordAgain" id="newPasswordAgain">
+            <i nz-icon class="cursor-pointer absolute md:right-64 right-2 top-3" [nzType]="rePasswordVisible? 'eye-invisible' : 'eye'" (click)="rePasswordVisible = !rePasswordVisible"></i>
+          </nz-form-control>
+          <ng-template #errorRePass let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <div>Vui lòng nhập lại mật khẩu mới</div>
+            </ng-container>
+            <ng-container *ngIf="control.hasError('confirm')">
+              <div>Mật khẩu mới nhập lại không chính xác!</div>
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <div class="flex justify-center lg:justify-start mb-5 lg:mb-0 w-full md:w-10/12">
+          <button (click)="onBack()" class="flex-1 px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn1 rounded-lg mr-5">Quay lại</button>
+          <button type="submit" class="flex-1 px-4 py-1 text-center text-base hover:font-semibold border border-solid border-black cursor-pointer btn2 rounded-lg">Đổi mật khẩu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

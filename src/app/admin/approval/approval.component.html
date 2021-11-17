@@ -1,0 +1,110 @@
+<nz-skeleton [nzActive]='true' [nzLoading]="loading">
+  <div class="container" *ngIf="err !== 404">
+    <div class="title-text-admin">Phê duyệt tài khoản doanh nghiệp</div>
+    <div class="table">
+      <nz-table #basicTable nzBordered [nzData]="company">
+        <thead>
+          <tr>
+            <th>Tên doanh nghiệp</th>
+            <th>Chi tiết</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let item of company">
+          <tr *ngIf="flaq == 0 && item.tinhTrang == 'waitingforapproval'">
+            <td>{{ item.tenDN }}</td>
+            <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+          </tr>
+          <tr *ngIf="flaq == 1 && item.tinhTrang == 'Approval'">
+            <td>{{ item.tenDN }}</td>
+            <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+          </tr>
+          <tr *ngIf="flaq == 2 && item.tinhTrang == 'DeniedApproval'">
+            <td>{{ item.tenDN }}</td>
+            <td><button class="table-buttonDetail" (click)="showDetail(item)">Chi tiết</button></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <nz-modal *ngIf="detailCompany" [nzWidth]="750" [(nzVisible)]="isVisibleDetail" [nzFooter]="null" (nzOnCancel)="cancelDetail()" nzCentered>
+      <div class="detail-container">
+        <div class="detail-header">
+          <div class="header-top">Chi tiết</div>
+          <div class="header-bottom" >
+            <div class="txt-name">{{ detailCompany.tenDN }}</div>
+            <div *ngIf="flaq === 0">
+              <button class="btn mr-7 bg-red-200 transition duration-500 ease-in-out hover:bg-red-400 text-black hover:text-white" (click)="openDialog('từ chối doanh nghiệp', detailCompany.tenDN, detailCompany._id)">Từ chối</button>
+              <button class="btn bg-green-200 transition duration-500 ease-in-out hover:bg-green-400 text-black hover:text-white" (click)="openDialog('duyệt doanh nghiệp', detailCompany.tenDN, detailCompany._id)">Duyệt</button>
+            </div>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <div class="flex justify-between w-full ml-8">
+          <div class="w-1/2">
+            <div class="text-header">Người đại diện</div>
+            <div class="text-body">{{ detailCompany.nguoiDD }}</div>
+            <div class="text-header">Chức vụ người đại diện</div>
+            <div class="text-body">{{ detailCompany.chucVu }}</div>
+            <div class="text-header">Thông tin tài khoản</div>
+            <div class="text-body">Tên đăng nhập: {{ detailCompany.userName }}</div>
+            <div class="text-body">Hotline: {{ detailCompany.soDT }}</div>
+            <div class="text-body">Email: {{ detailCompany.email }}</div>
+            <div class="text-header">Địa chỉ trụ sở chính</div>
+            <div class="text-body">{{ detailCompany.diaChi }}</div>
+          </div>
+          <div class="ml-2 w-1/2">
+            <div class="text-header">Mã số thuế</div>
+            <div class="text-body">{{ detailCompany.maSoThue }}</div>
+            <div class="text-header">Email doanh nghiệp</div>
+            <div class="text-body">{{ detailCompany.email }}</div>
+            <div class="text-header">Giấy phép kinh doanh</div>
+            <img class="ml-10 w-1/4" (click)="showLightbox(0)" src="{{ detailCompany.hinhGPKD }}">
+            <div class="text-header">Logo công ty</div>
+            <img class="ml-10 w-1/4" (click)="showLightbox(1)" src="{{ detailCompany.logo }}">
+          </div>
+        </div>
+      </div>
+    </nz-modal>
+    <ng-image-fullscreen-view
+        [images]="imageObject"
+        [imageIndex]="selectedImageIndex"
+        [show]="showFlag"
+        (close)="closeEventHandler()">
+    </ng-image-fullscreen-view>
+    <div class="right-afflix">
+      <ul nz-menu class="sider-menu">
+        <li nz-menu-item nzSelected (click)="clicktoChangeChuaDuyet($event)">
+          Chưa phê duyệt
+          <nz-badge [nzCount]="countChuaDuyet"></nz-badge>
+        </li>
+        <li nz-menu-item (click)="clickToChangeDaDuyet($event)">Đã phê duyệt
+          <nz-badge [nzCount]="countDaDuyet"></nz-badge>
+        </li>
+        <li nz-menu-item (click)="clickToChangeTuChoi($event)">Đã từ chối
+          <nz-badge [nzCount]="countDaTuChoi"></nz-badge>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--display err = 404-->
+  <nz-result *ngIf="err === 404" nzStatus="404" nzTitle="404" nzSubTitle="Xin lỗi, trang bạn ghé đến không tồn tại">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink='/'>Back Home</button>
+    </div>
+  </nz-result>
+
+  <!--display err = 403 -->
+  <nz-result *ngIf="err === 403" nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized to access this page.">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink="/">Trở về</button>
+    </div>
+  </nz-result>
+
+
+  <!--display err = 500 -->
+  <nz-result *ngIf="err === 500" nzStatus="500" nzTitle="500" nzSubTitle="Xin lỗi, có sự cố ở máy chủ">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink='/'>Trở về</button>
+    </div>
+  </nz-result>
+</nz-skeleton>

@@ -1,0 +1,61 @@
+.txt-sign:after{
+  width: 245px;
+}
+.frm-su{
+  width: 100%;
+}
+.eye{
+  position: absolute;
+  top: 30%;
+  right: 10px;
+}
+nz-form-label{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  text-align: left;
+}
+nz-date-picker{
+  border-radius: 20px;
+  width: 100%;
+}
+input{
+  width: 100%;
+  border-radius: 20px;
+}
+.row{
+  justify-content: center;
+  margin-right: 0 !important;
+}
+.col-left{
+  margin-left: 40px;
+  margin-right: 30px;
+}
+.col-right{
+  margin-right: 40px;
+}
+.content{
+  background-color: white;
+}
+txt-signin{
+  font-family: Pacifico;
+  color: #418E94;
+  position: relative;
+}
+.txt-signin:hover{
+  color: rgb(69, 142, 226);
+}
+
+
+.txt-signup{
+  font-family: Pacifico;
+  color: #418E94;
+  position: relative;
+  border-bottom: 2px solid #418E94;
+  border-radius: 15px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+.txt-signup:hover{
+  border-bottom: 1px solid rgb(69, 142, 226);
+  color: rgb(69, 142, 226);
+}

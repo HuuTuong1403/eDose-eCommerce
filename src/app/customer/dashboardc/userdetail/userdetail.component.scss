@@ -1,0 +1,64 @@
+*{
+  font-family: Source Sans Pro;
+}
+.btn-logout{
+    background: rgba(255, 224, 224, 0.58);
+    border: 1.25px solid #575757;
+}
+.btn-logout:hover{
+  background: rgba(252, 114, 114, 0.58);
+}
+.btn1{
+  background: linear-gradient(180deg, #FFE49E 0%, #FFFFFF 100%);
+}
+
+.btn2{
+  background: linear-gradient(180deg, #43FFDD 0%, rgba(67, 255, 221, 0) 100%);
+}
+
+.header{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+.bg-1{
+  z-index: 0;
+  position: absolute;
+  bottom: 0;
+  max-width: 100%;
+}
+.bg-2{
+  z-index: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 70%;
+  max-height: 90%;
+}
+
+.gr-btn{
+  position: absolute;
+  bottom: 0;
+  right: 8%;
+  line-height: 40px !important;
+  .btn-1{
+    background: rgba(255, 224, 224, 0.58);
+    border: 1.25px solid #575757;
+    box-sizing: border-box;
+    padding: 5px 15px 5px 15px;
+    border-radius: 6px;
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #B56868;
+  }
+  .btn-2{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color: #454545;
+    i{
+      margin-right: 10px
+    }
+  }
+}

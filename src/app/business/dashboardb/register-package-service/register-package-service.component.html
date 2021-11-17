@@ -1,0 +1,187 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div class="container">
+  <div *ngIf="steps === 0 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="info"></ng-container>
+  </div>
+  <div *ngIf="steps === 1 && !active" class="animate__animated animate__fadeInRight">
+    <ng-container *ngTemplateOutlet="step1"></ng-container>
+  </div>
+  <div *ngIf="steps === 2 && !active" class="animate__animated animate__fadeInLeft">
+    <ng-container *ngTemplateOutlet="step2"></ng-container>
+  </div>
+
+  <ng-template #info>
+    <div class="w-full lg:w-11/12" *ngIf="inforDN && packageIsRegister">
+      <div class="text-center my-5 text-2xl font-medium uppercase">Thông tin gói dịch vụ đã đăng ký</div>
+      <nz-card class="border bg-gray-50 my-10 mt-14 lg:my-4 rounded-xl px-0 lg:px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+        <div class="text-center my-5 text-2xl font-medium uppercase">Doanh nghiệp {{ inforDN.tenDN }}</div>
+        <nz-divider></nz-divider>
+        <div class="w-full flex pl-9 justify-between items-center">
+          <div class="w-1/2">
+            <div class="infor-txt">Mã gói dịch vụ: {{ packageIsRegister.maGoiDV }}</div>
+            <div class="infor-txt">Tên gói dịch vụ: {{ packageIsRegister.tenGoiDV }}</div>
+            <div class="infor-txt">Ngày hết hạn: {{ packageIsRegister.ngayHetHan | date:'dd/MM/yyyy vào lúc HH:mm:ss' }}
+              <i nz-icon nzType="calendar" nzTheme="outline" class="align-middle ml-2"></i>
+            </div>
+          </div>
+          <div class="w-1/2 ml-5">
+            <div class="infor-txt">Tổng số đơn hàng còn lại: {{ packageIsRegister.soDonHang }} đơn hàng</div>
+            <div class="infor-txt">Khối lượng hàng vận chuyển: {{ packageIsRegister.khoiLuongHang }}kg</div>
+            <div class="infor-txt flex">
+              <div>Tình trạng gói dịch vụ:</div>
+              <div *ngIf="packageIsRegister.trangThai == 'paid'" class="ml-1 text-green-400">Đã thanh toán</div>
+              <div *ngIf="packageIsRegister.trangThai == 'unpaid'" class="ml-1 text-red-400">Chưa thanh toán</div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center my-5">
+          <button (click)="openDialog('huỷ gói dịch vụ đang đăng ký', isVisibleDetail, '')"  class="btn bg-red-300 mr-5 transition duration-500 ease-in-out hover:bg-red-400 hover:text-gray-50">Hủy gói dịch vụ</button>
+          <button *ngIf="packageIsRegister.trangThai == 'unpaid'; else isPaid" (click)="showChoosePayment()" class="btn bg-blue-100 mx-5 transition duration-500 ease-in-out hover:bg-blue-400 hover:text-gray-50">Thanh toán gói dịch vụ còn nợ</button>
+          <ng-template #isPaid>
+            <button (click)="this.steps = 1" class="btn bg-blue-100 mx-5 transition duration-500 ease-in-out hover:bg-blue-400 hover:text-gray-50">Đăng ký thêm gói dịch vụ</button>
+          </ng-template>
+        </div>
+      </nz-card>
+
+      <nz-modal [nzWidth]="750" [(nzVisible)]="isVisibleChoosePayment" [nzFooter]="null" (nzOnCancel)="cancelChoosePayment()" nzCentered>
+        <div class="">
+          <div class="text-2xl font-medium text-center mt-5 uppercase">Chọn phương thức thanh toán</div>
+          <nz-divider></nz-divider>
+          <div class="text-lg font-medium my-3 mx-5">Mời bạn chọn phương thức thanh toán để thanh toán gói dịch vụ còn đang nợ:</div>
+          <form nz-form [formGroup]="choosePayment">
+            <nz-form-item>
+              <nz-form-control class="text-center" nzErrorTip="Hãy chọn phương thức thanh toán">
+                <nz-radio-group formControlName="payment">
+                  <label class="w-full mb-3" nz-radio nzValue="PayPal"><span class="ml-5 font-semibold text-lg raleway">Thanh toán thông qua <img src="../../../../assets/images/paypal.png" class="img-paypal ml-1"></span></label>
+                  <label class="w-full" nz-radio nzValue="VNPay"><span class="ml-5 font-semibold text-lg raleway">Thanh toán thông qua <img src="https://res.cloudinary.com/university-of-education-technology/image/upload/v1623995602/logo-business/rc6mwoyt4ybwe5rnlgyy.png" class="img-vnpay ml-1"></span></label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+          <div class="flex justify-center mb-5">
+            <button (click)="cancelChoosePayment()" class="mr-5 btn bg-red-300  transition duration-500 ease-in-out hover:bg-red-400 hover:text-white">Hủy thanh toán</button>
+            <button (click)="payPackageService(packageIsRegister.maGoiDV, packageIsRegister.tenGoiDV, packageIsRegister.cuocPhi, 'extension')" class="btn bg-green-300 transition duration-500 ease-in-out hover:bg-green-400 hover:text-white">Xác nhận và thanh toán</button>
+          </div>
+        </div>
+      </nz-modal>
+    </div>
+  </ng-template>
+
+  <ng-template #step1>
+    <div class="text-black mt-5 text-3xl text-center md:text-left raleway">Các gói dịch vụ eDose đang có</div>
+    <div class="mt-8 ml-5 lg:ml-9 md:ml-20 w-11/12 md:w-10/12">
+      <div class="text-center lg:text-right mr-0 lg:mr-5" *ngIf="packageIsRegister  !== undefined && flaqCancel === 0">
+        <button (click)="getPackageIsRegiter()" class="btn bg-blue-100 mx-5 transition duration-500 ease-in-out hover:bg-blue-400 hover:text-gray-50">Xem thông tin gói dịch vụ đã đăng ký</button>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="" *ngFor="let item of packageService">
+          <nz-card class="border ml-auto my-4 rounded-lg px-5 py-3 transition duration-500 ease-in-out hover:shadow-xl">
+            <div class="text-left font-medium text-2xl">{{ item.tenGoiDV | uppercase }}</div>
+            <div class="text-center mt-5 text-sm">Bạn chỉ bỏ ra</div>
+            <div class="text-center mt-3 text-2xl font-medium">{{ item.cuocPhi | currency:"VND"}}</div>
+            <div class="text-center mt-3 text-sm">Để sử dụng dịch vụ trong {{ item.thoiGianSuDung }} ngày</div>
+            <div class="text-center mt-5 text-base font-medium">với {{ item.soDonHang }} đơn hàng vận chuyển</div>
+            <div class="text-center my-5">
+              <button (click)="showDetail(item)" class="border border-gray-400 px-5 py-1 rounded-xl bg-blue-100 transition duration-500 ease-in-out font-medium hover:bg-blue-400 hover:text-white">Xem chi tiết</button>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+
+    <nz-modal *ngIf="detailPackage" [nzWidth]="750" [(nzVisible)]="isVisibleDetail" [nzFooter]="null" (nzOnCancel)="cancelDetail()" nzCentered>
+      <div class="detail-container">
+        <div class="detail-header">
+          <div class="text-base font-medium">Chi tiết</div>
+          <div class="header-bottom">
+            <div class="text-lg font-semibold uppercase mr-5">{{ detailPackage.tenGoiDV }}</div>
+            <div>
+              <button class="btn ok transition duration-500 ease-in-out " (click)="openDialog('đăng ký gói dịch vụ', isVisibleDetail, detailPackage._id)">Đăng ký</button>
+            </div>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <div class="detail-body">
+          <div class="body-left">
+            <div class="text-header">Mã gói dịch vụ</div>
+            <div class="text-body">{{ detailPackage.maGoiDV }}</div>
+            <div class="text-header">Tên gói dịch vụ</div>
+            <div class="text-body">{{ detailPackage.tenGoiDV }}</div>
+            <div class="text-header">Số đơn hàng của dịch vụ</div>
+            <div class="text-body">{{ detailPackage.soDonHang }} đơn hàng</div>
+          </div>
+          <div class="body-right">
+            <div class="text-header">Loại hàng áp dụng</div>
+            <div class="text-body">Bưu phẩm</div>
+            <div class="text-header">Thời hạn sử dụng</div>
+            <div class="text-body">{{ detailPackage.thoiGianSuDung }} ngày</div>
+            <div class="text-header">Cước phí</div>
+            <div class="text-body">{{ detailPackage.cuocPhi | currency:"VND"}}đ/30 ngày</div>
+          </div>
+        </div>
+      </div>
+    </nz-modal>
+  </ng-template>
+
+  <ng-template #step2>
+    <div class="frm-order w-full md:w-11/12 absolute z-50 mt-5" >
+      <div class="raleway font-semibold text-xl mb-2 text-center">
+        Hỗ trợ thanh toán bằng <img src="../../../../assets/images/paypal.png" class="img-paypal">
+        và <img src="https://vnpay.vn:443/wp-content/uploads/2020/07/Logo-VNPAYQR-update.png" class="img-vnpay">
+      </div>
+      <div class="w-full md:w-11/12 frm-order-1 border border-black rounded-xl px-1 md:px-6 py-3 m-auto">
+        <div class="mx-8">
+          <div class="text-center text-lg my-5 w-full uppercase font-bold">Thông tin hóa đơn đăng ký gói dịch vụ</div>
+          <div class="flex justify-center items-center ml-0 md:ml-8" *ngIf="inforDN && detailPackage">
+            <div class="w-1/2">
+              <div class="text-header-pay">Mã gói dịch vụ</div>
+              <div class="text-body-pay">{{ detailPackage.maGoiDV }}</div>
+              <div class="text-header-pay">Tên doanh nghiệp đăng ký</div>
+              <div class="text-body-pay">{{ inforDN.tenDN }}</div>
+              <div class="text-header-pay">Người đại diện</div>
+              <div class="text-body-pay">{{ inforDN.nguoiDD }}</div>
+            </div>
+            <div class="w-1/2">
+              <div class="text-header-pay">Số tiền thanh toán</div>
+              <div class="text-body-pay">{{ detailPackage.cuocPhi }}đ</div>
+              <div class="text-header-pay">Số điện thoại</div>
+              <div class="text-body-pay">{{ inforDN.soDT }}</div>
+              <div class="text-header-pay">Email</div>
+              <div class="text-body-pay">{{ inforDN.email }}</div>
+            </div>
+          </div>
+          <div class="flex justify-between w-full">
+            <div class="w-1/2">
+              <div class="text-header-pay">Hình thức thanh toán thẻ <span class="text-bottom">tín dung/ghi nợ</span></div>
+              <div class="mb-3 text-center w-1/2">
+                <img src="../../../../assets/images/visa-logo.png" alt="">
+                <img src="../../../../assets/images/master-logo.png" alt="">
+              </div>
+            </div>
+            <div class="w-1/2">
+              <div class="text-header-pay">Chọn phương thức thanh toán:</div>
+              <form nz-form [formGroup]="choosePayment">
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Hãy chọn phương thức thanh toán">
+                    <nz-radio-group formControlName="payment">
+                      <label class="mb-3" nz-radio nzValue="PayPal"><span class="ml-5 font-semibold text-lg raleway">Thanh toán bằng <img src="../../../../assets/images/paypal.png" class="img-paypal ml-1"></span></label>
+                      <label nz-radio nzValue="VNPay"><span class="ml-5 font-semibold text-lg raleway">Thanh toán bằng <img src="https://res.cloudinary.com/university-of-education-technology/image/upload/v1623995602/logo-business/rc6mwoyt4ybwe5rnlgyy.png" class="img-vnpay ml-1"></span></label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gr">
+        <button class="gr-btn" (click)="backStep()"><img class="img-back" src="../../../../assets/images/arr-nxt-fg.png">Lùi</button>
+        <button class="gr-btn" (click)="payPackageService(detailPackage.maGoiDV, detailPackage.tenGoiDV, detailPackage.cuocPhi, 'payment')">Thanh toán<img class="img-next" src="../../../../assets/images/arr-nxt-fg.png"></button>
+      </div>
+    </div>
+  </ng-template>
+</div>

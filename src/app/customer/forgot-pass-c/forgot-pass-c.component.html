@@ -1,0 +1,47 @@
+<div class="relative w-full" *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+<div *ngIf="!active" class="animate__animated animate__fadeInLeft">
+  <nz-content class="content">
+    <div class="txt-forgot mt-8">Quên mật khẩu</div>
+    <div *ngIf="steps === 1">
+      <ng-container *ngTemplateOutlet="step1"></ng-container>
+    </div>
+    <div *ngIf="steps === 2" class="animate__animated animate__fadeInRight">
+      <ng-container *ngTemplateOutlet="step2"></ng-container>
+    </div>
+
+    <ng-template #step1>
+        <form nz-form class="frm-fg" [formGroup]="emailForm">
+          <nz-form-item class="row">
+            <nz-form-label nzRequired [nzSm]="6" [nzXs]="12" nzFor="email">Nhập địa chỉ email</nz-form-label>
+            <nz-form-control [nzSm]="7" [nzXs]="12" [nzErrorTip]="emailError">
+              <input nz-input placeholder="Nhập email" formControlName="email" id="email">
+              <ng-template #emailError let-control>
+                <ng-container *ngIf="control.hasError('email')">
+                  <div>Email không đúng định dạng!</div>
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  <div>Email không được trống</div>
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <div class="form-sign-btn img mt-5">
+          <button class="btn-nxt" (click)="onClickNext()">Tiếp   <img (click)="onClickNext()" src="../../../assets/images/arr-nxt-fg.png" alt="arrow-next" class="cursor-pointer transition duration-500 ease-in-out transform hover:translate-x-4"></button>
+        </div>
+    </ng-template>
+
+    <ng-template #step2>
+      <p class="txt-step2">eDose đã gửi đường dẫn đổi mật khẩu đến địa chỉ email: {{ email }}.</p>
+      <p class="txt-step2">Vui lòng kiểm tra mail và tiếp tục</p>
+    </ng-template>
+
+  </nz-content>
+  <nz-footer class="footer">
+    <button [routerLink]="['/customer/signin']" class="txt-foo transition duration-500 ease-in-out transform hover:-translate-y-2">Đăng nhập</button>
+  </nz-footer>
+</div>

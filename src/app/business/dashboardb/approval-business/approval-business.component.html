@@ -1,0 +1,160 @@
+<div *ngIf="active">
+  <ng-container>
+    <nz-spin class="absolute top-1/2 left-1/2" [nzSpinning]="active" nzSimple [nzSize]="'large'"></nz-spin>
+  </ng-container>
+</div>
+
+<div class="container" *ngIf="doanhNghiep">
+  <div *ngIf="doanhNghiep.tinhTrang == 'authentication' || doanhNghiep.tinhTrang == 'DeniedApproval'; else waitingforapproval">
+    <div *ngIf="doanhNghiep.tinhTrang === 'DeniedApproval'" class="raleway text-xl font-semibold text-black text-center mb-4">Doanh nghiệp của bạn đã bị từ chối phê duyệt vui lòng nhập lại thông tin để xin phê duyệt lại!</div>
+    <div class="txt-title raleway text-xl font-semibold text-black text-center">Thông tin xin phê duyệt</div>
+    <div class="stp-ctn mt-5 mb-5">
+      <div class="stp-cnt">
+        <i nz-icon nzType="arrow-left" nzTheme="outline" class="stp-icn" (click)="steps = steps - 1" [ngClass]="steps == 1 || steps == 4 ? 'hide' : 'show'" ></i>
+        <div class="stp-txt">Bước</div>
+        <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 1" (click)="steps = 1">1</a>
+        <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 2" (click)="this.nextSteps()">2</a>
+        <a class="stp-txt stp-a" routerLinkActive="active" [class.active]="steps == 3">3</a>
+        <i nz-icon nzType="arrow-right" nzTheme="outline" class="stp-icn" (click)="this.nextSteps()" [ngClass]="steps == 3 ? 'hide' : 'show'" ></i>
+      </div>
+    </div>
+    <div class="flex justify-center items-center w-full">
+      <form nz-form [formGroup]="formApproval" class="w-3/5">
+        <div *ngIf="steps == 1 && !active">
+          <fieldset formGroupName="firstForm">
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="soDTNguoiDD">Số điện thoại người đại diện</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Số điện thoại người đại diện không được trống">
+                <input nz-input placeholder="Nhập số điện thoại người đại diện" formControlName="soDTNguoiDD" id="soDTNguoiDD">
+              </nz-form-control>
+            </nz-form-item>
+
+            <div class="flex justify-between w-full">
+              <nz-form-item class="w-1/2">
+                <nz-form-label [nzSpan]='8' nzFor="nguoiDD">Người đại diện</nz-form-label>
+                <nz-form-control [nzSpan]='16' nzErrorTip="Tên người đại diện không được trống">
+                  <input nz-input placeholder="Nhập tên người đại diện" formControlName="nguoiDD" id="nguoiDD">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item class="w-1/2 ml-5">
+                <nz-form-label [nzSpan]='8' nzFor="chucVu">Chức vụ</nz-form-label>
+                <nz-form-control [nzSpan]='16' nzErrorTip="Chức vụ không được trống">
+                  <input nz-input placeholder="Nhập chức vụ" formControlName="chucVu" id="chucVu">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="maDoanhNghiep">Mã số doanh nghiệp</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Mã số doanh nghiệp không được trống">
+                <input nz-input placeholder="Nhập mã số doanh nghiệp" formControlName="maDoanhNghiep" id="maDoanhNghiep">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label class="text-xl" nzcol [nzSpan]='8' nzFor="hinhGPKD">Hình giấy phép kinh doanh</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorImageGPKD">
+                <div class="flex">
+                  <label for="hinhGPKD" class="cursor-pointer px-10 py-1 rounded-xl transition duration-500 ease-in-out bg-yellow-300 hover:bg-yellow-400 transform hover:-translate-y-1 hover:text-white border-none font-bold uppercase"><i class="text-xl mr-3" nz-icon nzType="cloud-upload" nzTheme="outline"></i>upload GPKD</label>
+                  <div class="text-base ml-3 md:mt-0" *ngIf="gpkd && isClearGPKD">
+                    {{ gpkd.name }}<i class="absolute z-50 text-lg ml-0 md:ml-3 cursor-pointer border-1 border-gray-100 rounded-md px-2 py-1 bg-green-300" (click)="resetGPKD()" nz-icon nzType="delete" nzTheme="outline"></i>
+                  </div>
+                </div>
+                <input class="text-base hide" type="file" nz-input id="hinhGPKD" formControlName="hinhGPKD" (change)="onFileChangeGPKD($event)" accept=".jpeg,.jpg,.png" #ImageGPKD>
+                <ng-template #errorImageGPKD let-control>
+                  <ng-container *ngIf="control.hasError('extension')">
+                    <div class="mt-2" >Bạn phải chọn file *jpeg, *jpg, *png</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div class="mt-2">Bạn phải thêm hình giấy phép kinh doanh</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label class="text-xl" nzcol [nzSpan]='8' nzFor="logo">Logo công ty</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' [nzErrorTip]="errorImageLogo">
+                <div class="flex" >
+                  <label for="logo" class="cursor-pointer px-10 py-1 rounded-xl transition duration-500 ease-in-out bg-yellow-300 hover:bg-yellow-400 transform hover:-translate-y-1 hover:text-white border-none font-bold uppercase"><i class="text-xl mr-3" nz-icon nzType="cloud-upload" nzTheme="outline"></i>upload logo</label>
+                  <div class="text-base ml-3 md:mt-0" *ngIf="logo && isClearLogo">
+                    {{ logo.name }}<i class="absolute z-50 text-lg ml-0 md:ml-3 cursor-pointer border-1 border-gray-100 rounded-md px-2 py-1 bg-green-300" (click)="resetLogo()" nz-icon nzType="delete" nzTheme="outline"></i>
+                  </div>
+                </div>
+                <input class="text-base hide" type="file" nz-input id="logo" formControlName="logo" (change)="onFileChangeLogo($event)" accept=".jpeg,.jpg,.png" #ImageLogo>
+                <ng-template #errorImageLogo let-control>
+                  <ng-container *ngIf="control.hasError('extension')">
+                    <div class="mt-2" >Bạn phải chọn file *jpeg, *jpg, *png</div>
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    <div class="mt-2">Bạn phải thêm logo công ty</div>
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </fieldset>
+        </div>
+
+
+        <div *ngIf="steps == 2 && !active">
+          <fieldset formGroupName="secondForm">
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="soTK">Số tài khoản ngân hàng</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Số tài khoản ngân hàng không được trống">
+                <input nz-input placeholder="Nhập số tài khoản ngân hàng" formControlName="soTK" id="soTK">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="chuTK">Chủ tài khoản</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Chủ tài khoản không được trống">
+                <input nz-input placeholder="Nhập chủ tài khoản" formControlName="chuTK" id="chuTK">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="tenNganHang">Tên ngân hàng</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Tên ngân hàng không được trống">
+                <input nz-input placeholder="Nhập tên ngân hàng" formControlName="tenNganHang" id="tenNganHang">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="thanhPho">Tỉnh/Thành phố</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Tỉnh/Thành phố không được trống">
+                <input nz-input placeholder="Nhập tỉnh/thành phố" formControlName="thanhPho" id="thanhPho">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzcol [nzSpan]='8' nzFor="chiNhanh">Chi nhánh</nz-form-label>
+              <nz-form-control nzcol [nzSpan]='16' nzErrorTip="Chi nhánh không được trống">
+                <input nz-input placeholder="Nhập chi nhánh" formControlName="chiNhanh" id="chiNhanh">
+              </nz-form-control>
+            </nz-form-item>
+          </fieldset>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="steps == 3 && !active">
+      <div class="text-center text-xl raleway mt-5 font-semibold">Nhấn vào dấu check để gửi yêu cầu phê duyệt</div>
+      <div class="text-center my-5">
+          <i (click)="onSubmitApproval()" nz-icon nzType="check-circle" nzTheme="outline" class="text-5xl text-gray-400 hover:text-green-500 transition duration-500 ease-in-out transform hover:-translate-y-2 cursor-pointer"></i>
+      </div>
+      <div class="text-center text-xl raleway font-semibold">Đồng ý với hợp đồng điện tử</div>
+    </div>
+    </div>
+</div>
+<ng-template #waitingforapproval>
+  <div class="flex justify-center">
+    <div class="text-red-500 text-2xl font-medium uppercase w-full lg:w-3/5 mt-2 lg:mt-10 text-center">Thông tin xin phê duyệt doanh nghiệp của bạn đã được gửi và đang chờ hệ thống chúng tôi phê duyệt mong bạn quay lại sau</div>
+  </div>
+  <div class="flex justify-center">
+    <div class="text-red-400 text-xl raleway font-medium uppercase w-full lg:w-3/5 mt-2 lg:mt-2 text-center">Nhấp chuột vào nút bên dưới để quay về trang chủ</div>
+  </div>
+  <div class="text-center mt-5">
+    <i (click)="logOut()" nz-icon nzType="close-circle" nzTheme="outline" class="text-5xl text-gray-400 hover:text-red-500 transition duration-500 ease-in-out transform hover:-translate-y-2 cursor-pointer"></i>
+  </div>
+</ng-template>

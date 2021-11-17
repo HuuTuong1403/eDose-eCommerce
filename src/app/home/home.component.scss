@@ -1,0 +1,47 @@
+.header{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+.btn-0{
+  font-family: Source Sans Pro;
+  border: 0.5px solid #000000;
+  box-sizing: border-box;
+  border-radius: 21px;
+  margin-left: 15px;
+  font-size: 20px;
+}
+.signin{
+  background: #AEFFE2;
+  padding: 0 20px 0 20px;
+}
+.signup{
+  background: #FBFFCB;
+  padding: 0 30px 0 30px;
+  margin-right: 15px;
+}
+
+  .txt-tile{
+    font-family: Lobster;
+    font-style: normal;
+    font-weight: normal;
+    top: 30px;
+    left: 34%;
+    text-align: center;
+    color: #000000;
+  }
+    .txt-top{
+      font-family: Pacifico;
+      font-style: normal;
+      font-weight: normal;
+      text-align: center;
+      top: 275px;
+      right: 125px;
+    }
+    .txt-content{
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: normal;
+      color: rgba(87, 87, 87, 0.96);
+      top: 340px;
+      right: 100px;
+      text-indent: 40px;
+    }

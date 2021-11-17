@@ -1,0 +1,58 @@
+.header{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.764516) 27.08%, #FFFFFF 99.98%, rgba(255, 255, 255, 0.677083) 99.99%, rgba(255, 255, 255, 0) 100%), #82F7FF;
+}
+
+.btn-1{
+  background: rgba(255, 224, 224, 0.58);
+  border: 1.25px solid #575757;
+}
+.btn-1:hover{
+  background: rgba(252, 114, 114, 0.58);
+}
+.raleway{
+  font-family: Raleway;
+}
+.source-sans-pro{
+  font-family: Source Sans Pro;
+}
+
+.detail{
+  background: linear-gradient(180deg, rgba(207, 255, 246, 0.58) 15.1%, rgba(196, 196, 196, 0) 100%);
+}
+.img{
+  max-width: 0;
+}
+
+.txt-title{
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+}
+.txt-content{
+  margin-left: 15px;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+.btn1{
+  background: linear-gradient(180deg, #FFE49E 0%, #FFFFFF 100%);
+}
+.btn2{
+  background: linear-gradient(180deg, #43FFDD 0%, rgba(67, 255, 221, 0) 100%);
+}
+
+@media only screen and (min-width: 500px) {
+  .img{
+    max-width: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .img{
+    max-width: 58%;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .img{
+    max-width: 65%;
+  }
+}

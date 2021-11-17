@@ -1,0 +1,51 @@
+.container{
+  position: relative;
+}
+.back{
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 50px;
+  text-align: center;
+  font-size: 25px;
+}
+.ic-back{
+  position: relative;
+}
+
+.accept{
+  background: #6DFFA8;
+}
+.accept:hover{
+  background: #45df82;
+  color: white;
+}
+
+.check-back{
+  background: linear-gradient(180deg, rgba(255, 199, 116, 0.83) 0%, #FFEFD8 100%);
+}
+
+.cross-check{
+  background: linear-gradient(180deg, #43FFDD 0%, rgba(67, 255, 221, 0) 100%);
+}
+
+
+.dtpk{
+  border-radius: 12px;
+}
+
+.header{
+  margin: 20px 40px 20px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.body{
+  margin: 40px 40px 20px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer{
+  display: flex;
+  justify-content: flex-end;
+}

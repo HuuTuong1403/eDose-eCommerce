@@ -1,0 +1,29 @@
+.content{
+  position: absolute;
+  z-index: 1000;
+}
+
+@media only screen and (min-width: 500px) {
+  .chart{
+    width: 500px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .chart{
+    width: 700px;
+    margin-left: 3rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .chart{
+    width: 700px;
+    margin-left: 0;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  .chart{
+    min-width: 800px;
+    margin-left: 96px;
+  }
+}
+
